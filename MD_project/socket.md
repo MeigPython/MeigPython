@@ -170,8 +170,56 @@ socket.setblocking(False) 相当于 socket.settimeout(0)
 
 ### socket通信示例：
 
-
-
-
-
-
+	#socket示例
+	import utime
+	import checkNet
+	import usocket
+	import log
+	
+	PROJECT_NAME = "mPython_socket_example"
+	PROJECT_VERSION = "1.0.0"
+	checknet = checkNet.CheckNetwork(PROJECT_NAME, PROJECT_VERSION)
+	
+	if __name__ == '__main__':
+	    utime.sleep(5)
+	    #开机打印信息
+	    print(checknet.poweron_print_once())
+	    #等待网络就绪，超时时间内，只要检测到拨号成功，则会立即返回，否则阻塞到超时时间到才会退出
+	    stagecode, subcode = checknet.wait_network_connected(30)
+	    print('stagecode = {}, subcode = {}'.format(stagecode, subcode))
+	    #网络状态判断
+	    if stagecode == 3 and subcode == 1:
+	        # 创建一个socket实例
+	        sock = usocket.socket(usocket.AF_INET, usocket.SOCK_STREAM)
+	        # 解析域名
+	        sockaddr=usocket.getaddrinfo('www.tongxinmao.com', 80)[0][-1]
+	        print(sockaddr)
+	        # 建立连接
+	        sock.connect(sockaddr)
+	        # 向服务端发送消息
+	        ret=sock.send('GET /News HTTP/1.1\r\nHost: www.tongxinmao.com\r\nAccept-Encoding: deflate\r\nConnection: keep-alive\r\n\r\n')
+	        print("send",ret)
+	        #接收服务端消息
+	        data=sock.recv(256)
+	        print("recv",data)
+	        #发送数据
+	        ret=sock.send('GET /News HTTP/1.1\r\nHost: www.tongxinmao.com\r\nAccept-Encoding: deflate\r\nConnection: keep-alive\r\n\r\n', sockaddr)
+	        print("send",ret)
+	        #从套接字接收数据
+	        data=sock.recvfrom(256)
+	        print("recv",data)
+	        # 关闭连接
+	        sock.close()   
+	    else:
+	        #将主机域名和端口转换为用于创建套接字的5元组序列
+	        sockaddr=usocket.getaddrinfo('www.tongxinmao.com', 80)
+	        print(sockaddr)   
+	    
+	    while True :
+	        utime.sleep(2)
+	        print("wait")
+	
+	
+	
+	
+	

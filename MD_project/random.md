@@ -7,7 +7,7 @@ random模块提供了生成随机数的工具。
 
 示例：
 
-	>>> import random
+	>>> import urandom as random
 	>>> random.choice("QuecPython")
 	't'
 	
@@ -18,7 +18,7 @@ random模块提供了生成随机数的工具。
 
 示例：
 
-	>>> import random
+	>>> import urandom as random
 	>>> random.getrandbits(1)  #1位二进制位，范围为0~1（十进制：0~1）
 	1
 	>>> random.getrandbits(1)
@@ -33,7 +33,7 @@ random模块提供了生成随机数的工具。
 
 示例：
 
-	>>> import random
+	>>> import urandom as random
 	>>> random.randint(1, 4)
 	4
 	>>> random.randint(1, 4)
@@ -45,8 +45,8 @@ random模块提供了生成随机数的工具。
 
 示例：
 
-	>>> import urandom
-	>>> urandom.random()
+	>>> import urandom as random
+	>>> random.random()
 	0.8465231
 
 ### 随机生成x到y之间并且递增为z的正整数
@@ -56,7 +56,7 @@ random模块提供了生成随机数的工具。
 
 示例：
 
-	>>> import random
+	>>> import urandom as random
 	>>> random.randrange(0, 8, 2)
 	0
 	>>> random.randrange(0, 8, 2)
@@ -69,10 +69,10 @@ random模块提供了生成随机数的工具。
 
 示例：
 
-	>>> import urandom
-	>>> urandom.seed(20)  #指定随机数种子
+	>>> import urandom as random
+	>>> random.seed(20)  #指定随机数种子
 	>>> for i in range(0, 15): #生成0~15范围内的随机序列
-	...     print(urandom.randint(1, 10))
+	...     print(random.randint(1, 10))
 	...     
 	8
 	10
@@ -96,7 +96,7 @@ random模块提供了生成随机数的工具。
 
 示例：
 
-	>>> import random
+	>>> import urandom as random
 	>>> random.uniform(3, 5)
 	3.219261
 	>>> random.uniform(3, 5)

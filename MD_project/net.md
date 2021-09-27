@@ -14,9 +14,6 @@
 
 设置成功返回整型值0，设置失败返回整型值-1。
 
-- 注意
-
-BC25PA平台不支持此方法。
 
 ### 获取当前APN
 >net.getApn(simid)
@@ -31,9 +28,6 @@ BC25PA平台不支持此方法。
 
 成功返回获取到的APN，失败返回整型值-1。
 
-- 注意
-
-BC25PA平台不支持此方法。
 
 ### 获取csq信号强度
 >net.csqQueryPoll()
@@ -155,10 +149,6 @@ LTE网络系统返回值说明
 |17|UMTS_LTE, dual link. not supported in EC100Y and EC200S|
 |18|GSM_UMTS_LTE, dual link. not supported in EC100Y and EC200S|
 
-- 注意
-
-BC25PA平台不支持此方法。
-
 - 示例
 
 
@@ -180,10 +170,6 @@ BC25PA平台不支持此方法。
 - 返回值
 
 设置成功返回整型值0，设置失败返回整型值-1。
-
-- 注意
-
-BC25PA平台不支持此方法。
 
 ### 获取网络配置模式
 >net.getNetMode()
@@ -320,58 +306,6 @@ mnc ：移动设备网络代码，string类型
 
 	>>> net.operatorName()
 	('CHN-UNICOM', 'UNICOM', '460', '01')
-
-### 获取网络注册信息
->net.getState()
-
-获取当前网络注册信息。
-
-- 参数
-
-无
-
-- 返回值
-
-失败返回整型值-1，成功返回一个元组，包含注网的网络注册信息，格式为：
-
-([voice_state, voice_lac, voice_cid, voice_rat, voice_reject_cause, voice_psc], [data_state, data _lac, data _cid, data _rat, data _reject_cause, data _psc])
-
-返回值参数说明：
-
-state ：网络注册状态
-
-lac ：位置区码
-
-cid ：int类型id信息
-
-rat ：注网制式
-
-reject_cause ：注册被拒绝的原因
-
-psc ：Primary Scrambling Code
-
-网络注册状态
-
-|值|状态说明|
-|---|------|
-|0 |not registered, MT is not currently searching an operator to register to|
-|1|registered, home network|
-|2|not registered, but MT is currently trying to attach or searching an operator to register to|
-|3|registration denied|
-|4|unknown|
-|5|registered, roaming|
-|6|egistered for “SMS only”, home network (not applicable)|
-|7|registered for “SMS only”, roaming (not applicable)|
-|8|attached for emergency bearer services only|
-|9|registered for “CSFB not preferred”, home network (not applicable)|
-|10|registered for “CSFB not preferred”, roaming (not applicable)|
-|11|emergency bearer services only|
-
-- 示例
-
-
-	>>> net.getState()
-	([11, 26909, 232301323, 7, 0, 466], [0, 26909, 232301323, 7, 0, 0])
 
 ### 获取附近小区ID
 >net.getCi()

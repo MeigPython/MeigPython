@@ -115,48 +115,39 @@ PIN脚电平，0-低电平，1-高电平。
 
 ## UART
 			
-类功能：GPIO读写操作
-
+类功能：uart串口数据传输。
 ### 常量说明
+|常量|说明|
+|----|---|
+|UART.UART0|UART0|
+|UART.UART1|UART1|
+|UART.UART2|UART2|
+|UART.UART3|UART3|
 
-|常量|适配平台|说明|
-|----|-------|----|
-|Pin.GPIO1|  |GPIO1|
-|Pin.GPIO2|  |GPIO2|
-|Pin.GPIO3|  |GPIO3|
-|Pin.GPIO4|  |GPIO4|
-|Pin.GPIO5|  |GPIO5|
-|Pin.IN|--|输入模式|
-|Pin.OUT|--|输出模式|
-|Pin.PULL_DISABLE|--|浮空模式|
-|Pin.PULL_PU|--|上拉模式|
-|Pin.PULL_PD|--|下拉模式|
-
-####  GPIO对应引脚说明
-文档中提供的GPIO引脚号对应的为模块外部的引脚编号，可参考提供的硬件资料查看模块外部的引脚编号。
-
-### 创建GPIO对象
->gpio = Pin(GPIOn, direction, pullMode, level)
+### 创建uart对象
+>uart = UART(UART.UARTn, buadrate, databits, parity, stopbits, flowctl)
 
 - 参数
 
 |参数|类型|说明|
-|---|----|---|
-|GPIOn|int|引脚号,平台引脚对应关系如下(引脚号为外部引脚编号：<br>GPIO1 – 引脚号3   <br>GPIO2 – 引脚号4 <br>GPIO3 – 引脚号5  <br>GPIO4 – 引脚号6   <br>GPIO5 – 引脚号18|
-|direction|int|IN – 输入模式，OUT – 输出模式|
-|pullMode|int|PULL_DISABLE – 浮空模式 <br>PULL_PU – 上拉模式 <br>	PULL_PD – 下拉模式|
-|level|int|0 - 设置引脚为低电平, 1- 设置引脚为高电平|
+|---|----|----|
+|UARTn|int|UARTn作用如下：<br>UART0 - DEBUG PORT<br>UART1 – BT PORT<br>UART2 – MAIN PORT<br>UART3 – USB CDC PORT|
+|buadrate|int|波特率，常用波特率都支持，如4800、9600、19200、38400、57600、115200、230400等|
+|databits|int|数据位（5~8），展锐平台当前仅支持8位|
+|parity|int|奇偶校验（0 – NONE，1 – EVEN，2 - ODD）|
+|stopbits|int|停止位（1~2）|
+|flowctl|int|硬件控制流（0 – FC_NONE， 1 – FC_HW）|
 
 - 示例
 
 
-	from machine import Pin
-	gpio1 = Pin(Pin.GPIO1, Pin.OUT, Pin.PULL_DISABLE, 0)
+	>>> from machine import UART
+	>>> uart1 = UART(UART.UART1, 115200, 8, 0, 1, 0)
 
-### 获取引脚电平
->Pin.read()
+### 获取接收缓存未读数据大小
+>uart.any()
 
-获取PIN脚电平。
+返回接收缓存器中有多少字节的数据未读。
 
 - 参数
 
@@ -164,69 +155,63 @@ PIN脚电平，0-低电平，1-高电平。
 
 - 返回值
 
-PIN脚电平，0-低电平，1-高电平。
+返回接收缓存器中有多少字节的数据未读。
 
-### 设置引脚电平
->Pin.write(value)
+- 示例
 
-设置PIN脚电平,设置高低电平前需要保证引脚为输出模式。
+
+	>>> uart.any()
+	20 #表示接收缓冲区中有20字节数据未读
+
+### 串口读数据
+>uart.read(nbytes)
+
+- 参数
+
+|参数|类型|说明|
+|---|-----|---|
+|nbytes|int|要读取的字节数|
+
+- 返回值
+
+返回读取的数据。
+
+### 串口发数据
+>uart.write(data)
+
+发送数据到串口。
 
 - 参数
 
 |参数|类型|说明|
 |---|----|----|
-|value|int|0 - 当PIN脚为输出模式时，设置当前PIN脚输出低;<br>1 - 当PIN脚为输出模式时，设置当前PIN脚输出高|
+|data|string|发送的数据|
 
 - 返回值
 
-设置成功返回整型值0，设置失败返回整型值-1。
-
-- 示例
-
-
-	>>> from machine import Pin
-	>>> gpio1 = Pin(Pin.GPIO1, Pin.OUT, Pin.PULL_DISABLE, 0)
-	>>> gpio1.write(1)
-	0
-	>>> gpio1.read()
-	1
+返回发送的字节数。
 
 ### 使用示例
-
-	from machine import pin
+	
+	from machine import UART
 	import utime
 	import log
-	'''
-	* 参数2：direction
-	        IN – 输入模式
-	        OUT – 输出模式
-	* 参数3：pull
-	        PULL_DISABLE – 禁用模式
-	        PULL_PU – 上拉模式
-	        PULL_PD – 下拉模式
-	* 参数4：level
-	        0 设置引脚为低电平
-	        1 设置引脚为高电平
-	'''
-	#初始化GPIO3和GPIO4
-	GPIO3 = pin(pin.GPIO3, pin.OUT, pin.PULL_DISABLE, 1)
-	GPIO4 = pin(pin.GPIO4, pin.OUT, pin.PULL_DISABLE, 1)
-	while True:
-	    GPIO3.write(1)          #设置GPIO3为高电平
-	    GPIO4.write(1)          #设置GPIO4为高电平
-	    val3 = GPIO3.read()     #获取GPIO3的电平状态
-	    val4 = GPIO4.read()     #获取GPIO4的电平状态
-	    print('val3 = {}'.format(val3))
-	    print('val4 = {}'.format(val4))
-	    utime.sleep_ms(500)
-	    GPIO3.write(0)          #设置GPIO3为低电平
-	    GPIO4.write(0)          #设置GPIO4为低电平
-	    val3 = GPIO3.read()     #获取GPIO3的电平状态
-	    val4 = GPIO4.read()     #获取GPIO4的电平状态
-	    print('val3 = {}'.format(val3))
-	    print('val4 = {}'.format(val4))
-	    utime.sleep_ms(500)
-
+	#创建UART对象
+	uart1 = UART(UART.UART1, 115200, 8, 0, 1, 0)
+	usb_cdc = UART(UART.UART3)
+	if __name__ == '__main__':
+	    while True:
+	        #返回接收缓存器中有多少字节的数据未读
+	        read_msg_len = usb_cdc.any()
+	        #判断是否接收到数据
+	        if read_msg_len:
+	            #从串口读取数据
+	            read_msg = usb_cdc.read(read_msg_len)
+	            print("usb cdc msg:{}".format(read_msg))
+	            log.info("usb cdc msg:{}".format(read_msg))
+	            #发送数据到串口
+	            usb_cdc.write(read_msg)
+	        utime.sleep_ms(1)
 
 ## Timer
 
@@ -394,27 +379,6 @@ PS:使用该定时器时需注意：定时器0-3，每个在同一时间内只�
 - 返回值
 
 使能成功返回整型值0，使能失败返回整型值-1。
-
-### 读取引脚映射行号
-
->extint.line()
-
-返回引脚映射的行号。
-
-- 参数
-
-无
-
-- 返回值
-
-引脚映射的行号。
-
-- 示例
-
-
-	>>> extint = ExtInt(ExtInt.GPIO1, ExtInt.IRQ_FALLING, ExtInt.PULL_PU, fun)
-	>>> extint.line()
-	32
 
 ## RTC
 

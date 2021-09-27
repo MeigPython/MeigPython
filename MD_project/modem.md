@@ -1,7 +1,7 @@
 模块功能：设备信息获取
 
 ### 获取设备的IMEI
->modem.getDevImei()
+>modem.getimei()
 
 获取设备的IMEI。
 
@@ -21,7 +21,7 @@
 	'866327040830317'
 
 ### 获取设备型号
->modem.getDevModel()
+>modem.getModel()
 
 获取设备型号。
 
@@ -41,7 +41,7 @@
 
 
 ### 获取设备序列号
->modem.getDevSN()
+>modem.getSn()
 
 获取设备序列号。
 
@@ -61,7 +61,7 @@
 
 
 ### 获取固件版本号
->modem.getDevFwVersion()
+>modem.getVersion()
 
 获取固件版本号
 
@@ -80,7 +80,7 @@
 	'EC100YCNAAR01A01M16_OCPU_PY'
 
 ### 获取设备制造商ID
->modem.getDevProductId()
+>modem.getProductId()
 
 获取设备的制造商ID。
 
