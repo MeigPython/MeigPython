@@ -3,7 +3,7 @@
 
 ![logo](/LOGO.png)
 
-# MGPython <small>1.0</small>
+# MeigPython <small>1.0</small>
 
 > 一种全新的物联网开发方式
 
