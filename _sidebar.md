@@ -1,6 +1,5 @@
 * 视频教程
 * [python基础](MD_project/python/Python)
-* 文档中心
 * 资料下载
 * MeigPython类库API说明
     * [Python基本属性](MD_project/MeigPythonBasic.md)

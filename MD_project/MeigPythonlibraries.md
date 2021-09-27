@@ -293,13 +293,10 @@ sim卡解锁。当多次错误输入 PIN/PIN2 码后，SIM 卡状态为请求 PU
 
 |参数|参数类型|参数说明|
 |----|-------|-------|
-|storage|int|需要读取电话号码记录的电话本存储位置，可选参数如下：
-0 – DC，1 – EN，2 – FD，3 – LD，4 – MC，5 – ME，6 – MT，7 – ON，
-8 – RC，9 – SM，10 – AP，11 – MBDN，12 – MN，13 – SDN，14 – ICI，15 - OCI|
+|storage|int|需要读取电话号码记录的电话本存储位置，可选参数如下：<br>0 – DC，1 – EN，2 – FD，3 – LD，4 – MC，5 – ME，6 – MT，7 – ON，8 – RC，9 – SM，10 – AP，11 – MBDN，12 – MN，13 – SDN，14 – ICI，15 - OCI|
 |start|int|需要读取电话号码记录的起始编号，start为 0 表示不使用编号获取电话号码记，start应小于等于end|
 |end|int|需要读取电话号码记录的结束编号，必须满足：end - start <= 20|
-|username	|string|当 start为 0 时有效，电话号码中的用户名，暂不支持中文，最大长度不超过30字节
-注意：按username进行匹配时，并不是按完整的单词进行匹配，只要电话簿中已有记录的name是以username开头，那么就会匹配上|
+|username	|string|当 start为 0 时有效，电话号码中的用户名，暂不支持中文，最大长度不超过30字节<br>注意：按username进行匹配时，并不是按完整的单词进行匹配，只要电话簿中已有记录的name是以username开头，那么就会匹配上|
 
 - 返回值
 
@@ -340,8 +337,7 @@ phone_number – 电话号码，string类型
 
 |参数|参数类型|参数说明|
 |----|-------|-------|
-|storage|int|需要读取电话号码记录的电话本存储位置，可选参数如下：
-0 – DC，1 – EN，2 – FD，3 – LD，4 – MC，5 – ME，6 – MT，7 – ON，8 – RC，9 – SM，10 – AP，11 – MBDN，12 – MN，13 – SDN，14 – ICI，15 - OCI|
+|storage|int|需要读取电话号码记录的电话本存储位置，可选参数如下：<br>0 – DC，1 – EN，2 – FD，3 – LD，4 – MC，5 – ME，6 – MT，7 – ON，8 – RC，9 – SM，10 – AP，11 – MBDN，12 – MN，13 – SDN，14 – ICI，15 - OCI|
 |index|int|需要写入电话号码记录的在电话簿中的编号，范围1~500|
 |username|string|电话号码的用户名，长度范围不超过30字节，暂不支持中文名|
 |number|string|电话号码，最大长度不超过20字节|
