@@ -24,8 +24,8 @@ BC25PA不支持此方法。
 
 
 	>>> import dataCall
-	>>> dataCall.start(1, 0, "3gnet.mnc001.mcc460.gprs", "", "", 0)
-	0
+	>>> dataCall.startdataCall.start(0, 1, 2, "ctnet", "", "", 0)
+
 
 ### 注册回调函数
 >dataCall.setCallback(usrFun)
@@ -55,18 +55,13 @@ BC25PA不支持此方法。
 	        pdp = args[0]
 	        nw_sta = args[1]
 	        if nw_sta == 1:
-	            print("*** network %d connected! ***" % pdp)
+        		print("*** network %d connected! ***" % pdp)
+        		
 	        else:
 	            print("*** network %d not connected! ***" % pdp)
+				
 	            
 	>>> dataCall.setCallback(nw_cb)
-	0
-	>>> net.setModemFun(4)  # 进入飞行模式
-	0
-	>>> *** network 1 not connected! *** # 进入飞行模式导致断网，通过回调告知用户
-	>>> net.setModemFun(1)  # 退出飞行模式
-	0
-	>>> *** network 1 connected! *** # 退出飞行模式，自动拨号，等待联网成功，通过回调告知用户
 
 ### 获取拨号信息
 >dataCall.getInfo(profileIdx, ipType)
@@ -141,8 +136,6 @@ ipType =2，返回值格式如下：
 	    if nw_sta == 1:
 	        print("*** network %d connected! ***" % pdp)
 	        print(dataCall.getInfo( 1, 2))
-	        #print(dataCall.getInfo(0, 1, 0))
-	        #print(dataCall.getInfo(0, 1, 1))
 	    else:
 	        print("*** network %d not connected! ***" % pdp)
 	        print(dataCall.getInfo( 1, 2))
@@ -179,7 +172,6 @@ ipType =2，返回值格式如下：
 
 	>>> import sim
 	>>> sim.getImsi()
-	'460105466870381'
 ### 获取ICCID
 >sim.getIccid()
 
@@ -192,7 +184,6 @@ ipType =2，返回值格式如下：
 
 
 	>>> sim.getIccid()
-	'89860390845513443049'
 
 ### 获取电话号码
 >sim.getPhoneNumber()
@@ -259,7 +250,6 @@ sim卡解锁。当多次错误输入 PIN/PIN2 码后，SIM 卡状态为请求 PU
 
 
 	>>> sim.unblockPin("12345678", "0000")
-	0
 
 ### 更改SIM卡PIN码
 >sim.changePin(oldPin, newPin)
@@ -282,7 +272,6 @@ sim卡解锁。当多次错误输入 PIN/PIN2 码后，SIM 卡状态为请求 PU
 
 
 	>>> sim.changePin("1234", "4321")
-	0
 
 ### 读电话簿
 >sim.readPhonebook(storage, start, end, username)
@@ -372,7 +361,6 @@ phone_number – 电话号码，string类型
 - 示例
 
 
-
 	import sim
 	
 	def cb(args):
@@ -380,6 +368,36 @@ phone_number – 电话号码，string类型
 	    print('sim states:{}'.format(simstates))
 	    
 	sim.setCallback(cb)
+
+### 使用示例
+
+	#sim示例
+	import sim
+	import utime
+	import log 
+	if __name__ == '__main__':
+	    #开机需要延时一段时间
+	    for i in [0, 1, 2, 3, 4, 5]:
+	        utime.sleep(1)
+	        log.info("delay",i+1)
+	        print("delay",i+1,"s")
+	    #获取sim卡的状态    
+	    status = sim.getStatus()
+	    log.info(status)
+	    #获取sim卡的Imei号
+	    Imei = sim.getImei()
+	    log.info(Imei)
+	    #获取sim卡的Imsi号
+	    Imsi = sim.getImsi()
+	    log.info(Imsi)
+	    #获取sim卡的Iccid号
+	    Iccid = sim.getIccid()
+	    log.info(Iccid)
+	    print(sim.getStatus())
+	    print(sim.getImei())
+	    print(sim.getImsi())
+	    print(sim.getIccid())
+    
 
 ## net - 网络相关功能
 模块功能：该模块提供配置和查询网络模式信息等接口。
