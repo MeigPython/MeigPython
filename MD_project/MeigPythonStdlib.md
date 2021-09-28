@@ -144,16 +144,6 @@ os模块包含文件系统访问和挂载构建，该模块实现了CPython模�
 	>>> os.uname()[0].split('=')[1] # 可通过这种方式来获取sysname的值
 	'EC600S-CNLB'
 
-
-示例：
-
-	>>> import os
-	>>> os.uname2()
-	(sysname='EC600S-CNLB', nodename='EC600S', release='1.12.0', version='v1.12 on 2020-06-23', machine='EC600S with QUECTEL', qpyver='V0001')
-	>>> os.uname2().sysname  # 可通过这种方式直接获取sysname的值
-	'EC600S-CNLB'
-	>>> os.uname2().machine
-	'EC600S with QUECTEL'
 ### 返回具有n个随机字节的bytes对象
 
 >os.urandom(n)
