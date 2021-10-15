@@ -878,7 +878,6 @@ mnc ：移动设备网络代码，string类型
 - 示例
 
 
-
 	import checkNet
 	PROJECT_NAME = "XXXXXXXX"
 	PROJECT_VERSION = "XXXX"
@@ -918,7 +917,6 @@ SIM_CARD_STATUS : SIM卡状态
 	PROJECT_NAME = "MGPython_Math_example"
 	PROJECT_VERSION = "1.0.0"
 	checknet = checkNet.CheckNetwork(PROJECT_NAME, PROJECT_VERSION)
-	
 	if __name__ == '__main__':
 	    # 在用户程序运行前增加下面这一句
 	    checknet.poweron_print_once()
@@ -967,25 +965,25 @@ stagecode, subcode
 subcode 表示 SIM卡的状态，范围[0, 21]，每个值的详细说明，请参考：  |
 
 - 示例
-- 
-	import checkNet
-	
-	PROJECT_NAME = "MGPython_Math_example"
-	PROJECT_VERSION = "1.0.0"
-	checknet = checkNet.CheckNetwork(PROJECT_NAME, PROJECT_VERSION)
-	
-	if __name__ == '__main__':
-	    # 在用户程序运行前增加下面这一句
-	    stagecode, subcode = checknet.wait_network_connected(30)
-	    print('stagecode = {}, subcode = {}'.format(stagecode, subcode))
-	    ......
-	    
-	# 当用户程序开始运行时，如果网络已就绪，则返回值如下：
-	stagecode = 3, subcode = 1
-	# 如果用户没有插sim卡，则返回值如下：
-	stagecode = 1, subcode = 0
-	# 如果sim卡处于被锁的状态，则返回值如下：
-	stagecode = 1, subcode = 2
+
+		import checkNet
+		
+		PROJECT_NAME = "MGPython_Math_example"
+		PROJECT_VERSION = "1.0.0"
+		checknet = checkNet.CheckNetwork(PROJECT_NAME, PROJECT_VERSION)
+		
+		if __name__ == '__main__':
+		    # 在用户程序运行前增加下面这一句
+		    stagecode, subcode = checknet.wait_network_connected(30)
+		    print('stagecode = {}, subcode = {}'.format(stagecode, subcode))
+		    ......
+		# 当用户程序开始运行时，如果网络已就绪，则返回值如下：
+		stagecode = 3, subcode = 1
+		# 如果用户没有插sim卡，则返回值如下：
+		stagecode = 1, subcode = 0
+		# 如果sim卡处于被锁的状态，则返回值如下：
+		stagecode = 1, subcode = 2
+
 
 ### checkNet异常返回处理
 根据前面 checknet.wait_network_connected(timeout) 接口返回值描述，用户可参考如下处理方式来排查和解决问题：
@@ -1360,7 +1358,7 @@ ure.search 扫描整个字符串并返回第一个成功的匹配。
 
 
 ### 模块关机
->Power.powerDown()
+>power.powerDown()
 
 模块关机。
 
@@ -1373,7 +1371,7 @@ ure.search 扫描整个字符串并返回第一个成功的匹配。
 无
 
 ### 模块重启
->Power.powerRestart()
+>power.powerRestart()
 
 模块重启。
 
@@ -1386,7 +1384,7 @@ ure.search 扫描整个字符串并返回第一个成功的匹配。
 无
 
 ### 获取模块启动原因
->Power. powerOnReason()
+>power. powerOnReason()
 
 获取模块启动原因。
 
@@ -1414,7 +1412,7 @@ ure.search 扫描整个字符串并返回第一个成功的匹配。
 
 
 ### 获取模块上次关机原因
->Power. powerDownReason()
+>power. powerDownReason()
 
 获取模块上次关机原因。
 
@@ -1439,7 +1437,7 @@ ure.search 扫描整个字符串并返回第一个成功的匹配。
 0：未知
 
 ### 获取电池电压
->Power. getVbatt()
+>power. getVbatt()
 
 获取电池电压，单位mV。
 
@@ -1456,6 +1454,30 @@ int类型电压值。
 
 	>>> Power.getVbatt()
 	3590
+
+### 使用示例
+
+	#Power示例
+	from misc import power
+	import utime
+	import log 
+	
+	log.basicConfig(level=log.INFO)
+	Power_log = log.getLogger("Power")
+	
+	if __name__ == '__main__':
+	    for i in range(10):
+	        utime.sleep(1)
+	        Power_log.info("hello")
+	    #获取电池电压，单位mv
+	    u = power.getVbatt()
+	    Power_log.info(u)
+	    #获取模块启动原因
+	    reason = power.powerOnReason()
+	    Power_log.info(reason)
+	    #模块重启
+	    power.powerRestart()
+
 
 ## machine - 硬件相关功能
 
