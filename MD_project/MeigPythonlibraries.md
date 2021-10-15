@@ -16,9 +16,6 @@
 - 返回值
 
 成功返回整型值0，失败返回整型值-1。
-- 注意
-
-BC25PA不支持此方法。
 
 - 示例 
 
@@ -39,10 +36,6 @@ BC25PA不支持此方法。
 - 返回值
 
 注册失败返回整型-1，成功返回整型0。
-
-- 注意
-
-BC25PA不支持此方法。
 
 - 示例
 
@@ -124,34 +117,40 @@ ipType =2，返回值格式如下：
 
 ### 使用用例
 
-	#dataCall示例
 	import utime
 	import dataCall
 	import log
 	import net
+	
+	# 设置日志输出级别
+	log.basicConfig(level=log.INFO)
+	Datacall_log = log.getLogger("Datacall")
+	
 	def nw_cb(args):
 	    sim = args[0]
 	    pdp = args[1]   # pdp索引
 	    nw_sta = args[2]  # 网络连接状态 0未连接， 1已连接
 	    if nw_sta == 1:
-	        print("*** network %d connected! ***" % pdp)
-	        print(dataCall.getInfo( 1, 2))
+	        Datacall_log.info("*** network %d connected! ***" % pdp)
+	        Datacall_log.info(dataCall.getInfo(0, 1))
+	        #Datacall_log.info(dataCall.getInfo(0, 1))
+	        #Datacall_log.info(dataCall.getInfo(0, 1))
 	    else:
-	        print("*** network %d not connected! ***" % pdp)
-	        print(dataCall.getInfo( 1, 2))
+	        Datacall_log.info("*** network %d not connected! ***" % pdp)
+	        Datacall_log.info(dataCall.getInfo(0, 1))
 	
 	if __name__ == '__main__':
 	    #启动拨号，进行数据链路激活，成功返回0，失败返回-1
 	    iret = dataCall.start(0, 1, 2, "ctnet", "", "", 0)
 	    #注册用户回调函数，当网络状态发生变化，会通过回调函数通知用户
 	    dataCall.setCallback(nw_cb)
-	    print("datacall start", iret)
+	    Datacall_log.info("datacall start", iret)
 	    utime.sleep(2)
 	    while True :
 	        utime.sleep(2)
-	        print("wait")
-	        print(iret)
-	        print(dataCall.getInfo(1, 2))
+	        Datacall_log.info("wait")
+	        Datacall_log.info(iret)
+	        Datacall_log.info(dataCall.getInfo(0, 1))
 	   
 ## sim - SIM卡
 
@@ -172,6 +171,8 @@ ipType =2，返回值格式如下：
 
 	>>> import sim
 	>>> sim.getImsi()
+	b'460011442119027'
+
 ### 获取ICCID
 >sim.getIccid()
 
@@ -184,6 +185,7 @@ ipType =2，返回值格式如下：
 
 
 	>>> sim.getIccid()
+	b'8986012180115044751'
 
 ### 获取电话号码
 >sim.getPhoneNumber()
@@ -375,28 +377,29 @@ phone_number – 电话号码，string类型
 	import sim
 	import utime
 	import log 
+	
+	#设置日志输出级别
+	log.basicConfig(level=log.INFO)
+	Sim_log = log.getLogger("Sim")
+	
 	if __name__ == '__main__':
 	    #开机需要延时一段时间
 	    for i in [0, 1, 2, 3, 4, 5]:
 	        utime.sleep(1)
-	        log.info("delay",i+1)
+	        Sim_log.info("delay",i+1)
 	        print("delay",i+1,"s")
 	    #获取sim卡的状态    
 	    status = sim.getStatus()
-	    log.info(status)
+	    Sim_log.info(status)
 	    #获取sim卡的Imei号
 	    Imei = sim.getImei()
-	    log.info(Imei)
+	    Sim_log.info(Imei)
 	    #获取sim卡的Imsi号
 	    Imsi = sim.getImsi()
-	    log.info(Imsi)
+	    Sim_log.info(Imsi)
 	    #获取sim卡的Iccid号
 	    Iccid = sim.getIccid()
-	    log.info(Iccid)
-	    print(sim.getStatus())
-	    print(sim.getImei())
-	    print(sim.getImsi())
-	    print(sim.getIccid())
+	    Sim_log.info(Iccid)
     
 
 ## net - 网络相关功能
@@ -849,12 +852,13 @@ mnc ：移动设备网络代码，string类型
 
 模块功能：checkNet模块主要用于【开机自动运行】的用户脚本程序，该模块提供API用来阻塞等待网络就绪，如果超时或者其他异常退出会返回错误码，所以如果用户的程序中有涉及网络相关的操作，那么在用户程序的开始应该调用 checkNet 模块中的方法以等待网络就绪。当然，用户也可以自己实现这个模块的功能。
 
-注意：BC25PA平台不支持此模块。
 
 ### 创建checkNet对象
->import checkNet
 
->PROJECT_NAME = "MGPython_Math_example" PROJECT_VERSION = "1.0.0" checknet = checkNet.CheckNetwork(PROJECT_NAME, PROJECT_VERSION)
+	import checkNet
+	PROJECT_NAME = "MGPython_Math_example" 
+	PROJECT_VERSION = "1.0.0" 
+	checknet = checkNet.CheckNetwork(PROJECT_NAME, PROJECT_VERSION)
 
 - 功能
 
@@ -888,7 +892,15 @@ mnc ：移动设备网络代码，string类型
 
 开机时打印一些信息，主要用于提示用户。打印内容如下：
 
-PROJECT_NAME : 用户项目名称 PROJECT_VERSION : 用户项目版本号 FIRMWARE_VERSION : 固件版本号 POWERON_REASON : 开机原因 SIM_CARD_STATUS : SIM卡状态
+PROJECT_NAME : 用户项目名称 
+
+PROJECT_VERSION : 用户项目版本号 
+
+FIRMWARE_VERSION : 固件版本号 
+
+POWERON_REASON : 开机原因 
+
+SIM_CARD_STATUS : SIM卡状态
 
 - 参数
 
@@ -916,8 +928,8 @@ PROJECT_NAME : 用户项目名称 PROJECT_VERSION : 用户项目版本号 FIRMWA
 	==================================================
 	PROJECT_NAME     : MGPython_Math_example
 	PROJECT_VERSION  : 1.0.0
-	FIRMWARE_VERSION : EC600UCNLBR01A01M16_OCPU_V01
-	POWERON_REASON   : 2
+	FIRMWARE_VERSION : SLM320P_878463C_20211014_V42_T01
+	POWERON_REASON   : 0
 	SIM_CARD_STATUS  : 1
 	==================================================
 
@@ -955,8 +967,7 @@ stagecode, subcode
 subcode 表示 SIM卡的状态，范围[0, 21]，每个值的详细说明，请参考：  |
 
 - 示例
-
-
+- 
 	import checkNet
 	
 	PROJECT_NAME = "MGPython_Math_example"
@@ -991,7 +1002,7 @@ subcode 表示 SIM卡的状态，范围[0, 21]，每个值的详细说明，请�
 	    
 	    if stagecode == 1:
 	        # 如果 subcode = 0，说明没插卡，或者卡槽松动，需要用户去检查确认；
-	        # 如果是其他值，请参考官方wiki文档中关于sim卡状态值的描述，确认sim卡当前状态，然后做相应处理
+	        # 如果是其他值，请参考官方文档中关于sim卡状态值的描述，确认sim卡当前状态，然后做相应处理
 	    elif stagecode == 2:
 	        if subcode == -1:
 	            # 这种情况说明在超时时间内，获取注网状态API一直执行失败，在确认SIM卡可正常使用且能正常被模块识
@@ -1006,7 +1017,7 @@ subcode 表示 SIM卡的状态，范围[0, 21]，每个值的详细说明，请�
 	            #     SIM卡信息，比如哪个运营商的卡、什么类型的卡、卡的IMSI等信息也一并提供，必要时可以将
 	            #     SIM卡寄给我们来排查问题。
 	        else:
-	            # 请参考官方Wiki文档中 net.getState() 接口的返回值说明，确认注网失败原因
+	            #net.getState() 接口的返回值说明，确认注网失败原因
 	    elif stagecode == 3:
 	        if subcode == 1:
 	            # 这是正常返回情况，说明网络已就绪，即注网成功，拨号成功
@@ -1046,7 +1057,7 @@ subcode 表示 SIM卡的状态，范围[0, 21]，每个值的详细说明，请�
 
 	>>> import modem
 	>>> modem.getDevImei()
-	'866327040830317'
+	b'352273017386340
 
 ### 获取设备型号
 >modem.getModel()
@@ -1065,7 +1076,7 @@ subcode 表示 SIM卡的状态，范围[0, 21]，每个值的详细说明，请�
 
 
 	>>> modem.getDevSN()
-	'D1Q20GM050038341P'
+	b'SLM320P_878463C_20211014_V42_T01'
 
 
 ### 获取设备序列号
@@ -1085,7 +1096,6 @@ subcode 表示 SIM卡的状态，范围[0, 21]，每个值的详细说明，请�
 
 
 	>>> modem.getDevSN()
-	'D1Q20GM050038341P'
 
 
 ### 获取固件版本号
@@ -1105,7 +1115,7 @@ subcode 表示 SIM卡的状态，范围[0, 21]，每个值的详细说明，请�
 
 
 	>>> modem.getDevFwVersion()
-	'EC100YCNAAR01A01M16_OCPU_PY'
+	b'SLM320P_V42_T01
 
 ### 获取设备制造商ID
 >modem.getProductId()
@@ -1124,7 +1134,33 @@ subcode 表示 SIM卡的状态，范围[0, 21]，每个值的详细说明，请�
 
 
 	>>> modem.getDevFwVersion()
-	'EC100YCNAAR01A01M16_OCPU_PY'
+	b'MeiG'
+
+### 使用示例
+
+	#设备信息modem示例
+	import modem
+	import log
+	#设置日志输出级别
+	log.basicConfig(level=log.INFO)
+	Modem_log = log.getLogger("Modem")
+	
+	if __name__ == '__main__':
+	    #获取设备的信息
+	    Model = modem.getModel()
+	    Modem_log.info(Model)
+	    #获取设备的版本
+	    Version = modem.getVersion()
+	    Modem_log.info(Version)
+	    #获取设备的Sn码
+	    sn = modem.getSn()
+	    Modem_log.info(sn)
+	    #获取设备的Imei号
+	    imei = modem.getimei()
+	    Modem_log.info(imei)
+	    #获取设备的生产商信息
+	    id = modem.getProductId()
+	    Modem_log.info(id)
 
 ## ure - 正则
 模块功能：提供通过正则表达式匹配数据。
@@ -1141,7 +1177,7 @@ subcode 表示 SIM卡的状态，范围[0, 21]，每个值的详细说明，请�
 |‘*’|匹配零个或多个先前的子模式。|
 |‘+’|匹配一个或多个先前的子模式。|
 |‘??’	|非贪婪版本的 ? ，匹配0或1。|
-|‘*?’ | 非贪婪版本的*，匹配零个或多个。|
+|‘*?’ |非贪婪版本的*，匹配零个或多个。|
 |‘+?’|非贪婪版本的+，匹配一个或多个|
 | ‘∣’ |匹配该操作符的左侧子模式或右侧子模式。|
 |‘\d’|数字匹配|
@@ -1266,77 +1302,62 @@ ure.search 扫描整个字符串并返回第一个成功的匹配。
 
 ### 使用示例
 
+	#re模块示例
 	import ure
 	import log
+	
+	#设置日志输出级别
+	log.basicConfig(level=log.INFO)
+	Re_log = log.getLogger("Re")
+	
 	if __name__ == '__main__':
 	    #re.match尝试从字符串的起始位置匹配一个模式,如果不是起始位置匹配成功的话,match()就返回none
-	    print(ure.match('meig', 'meig is the best!').span())  #起始位置匹配
-	    print(ure.match('meig', 'meig is the best!'))         #不在起始位置匹配
 	    #re.search 扫描整个字符串并返回第一个成功的匹配
-	    print(ure.search('meig', 'meig is the best!').span())  #起始位置匹配
-	    print(ure.search('the', 'meig is the best!').span())  #不在起始位置匹配
-	    log.info(ure.match('meig', 'meig is the best!').span())
-	    log.info(ure.match('meig', 'meig is the best!'))
-	    log.info(ure.search('meig', 'meig is the best!').span())
-	    log.info(ure.search('the', 'meig is the best!').span())
+	    Re_log.info(ure.match('meig', 'meig is the best!').span())
+	    Re_log.info(ure.match('meig', 'meig is the best!'))
+	    Re_log.info(ure.search('meig', 'meig is the best!').span())
+	    Re_log.info(ure.search('the', 'meig is the best!').span())
 	    phone = "2021-008-026 #这是一个电话号码" 
 	    #用于替换字符串中的匹配项
 	    #删除字符串中的 Python注释
 	    num = ure.sub(r'#.*$', "", phone)
-	    print(num)
-	    log.info(num)
+	    Re_log.info(num)
 	    #删除非数字(-)的字符串
 	    num = ure.sub(r'\D', "", phone)
-	    print(num)
-	    log.info(num)
+	    Re_log.info(num)
 	
 	    #用于编译正则表达式,生成一个正则表达式（Pattern）对象,供 match()和 search()这两个函数使用
-	    print(ure.compile(r'\s+').split('meig python is the best'))
-	    print(ure.compile(r'\s+').split('meig python is the best', 2))
-	    log.info(ure.compile(r'\s+').split('meig python is the best'))
-	    log.info(ure.compile(r'\s+').split('meig python is the best', 2))
+	    Re_log.info(ure.compile(r'\s+').split('meig python is the best'))
+	    Re_log.info(ure.compile(r'\s+').split('meig python is the best', 2))
 	    #匹配两个数字
 	    pattern = ure.compile(r'(\d)(\d)')
 	    m = pattern.match('3146566544')
-	    print(m)                #匹配成功，返回一个 Match 对象
-	    print(m.group(0))       #返回匹配成功的整个子串     
-	    print(m.span(0))        #返回匹配成功的整个子串的索引 
-	    print(m.group(1))       #返回第一个分组匹配成功的子串
-	    print(m.span(1))        #返回第一个分组匹配成功的子串的索引
-	    print(m.group(2))       #返回第二个分组匹配成功的子串
-	    print(m.span(2))        #返回第二个分组匹配成功的子串的索引
-	    log.info(m)
-	    log.info(m.group(0)) 
-	    log.info(m.span(0))
-	    log.info(m.group(1))
-	    log.info(m.span(1))
-	    log.info(m.group(2))
-	    log.info(m.span(2))
+	    Re_log.info(m)
+	    Re_log.info(m.group(0)) 
+	    Re_log.info(m.span(0))
+	    Re_log.info(m.group(1))
+	    Re_log.info(m.span(1))
+	    Re_log.info(m.group(2))
+	    Re_log.info(m.span(2))
 	    #匹配字符
 	    line = "Cats are smarter than dogs"
 	    matchObj = ure.match(r'(.*) are (.*?) .*', line)
 	    if matchObj:
-	        print("matchObj.group(0) : ", matchObj.group(0))
-	        print("matchObj.group(1) : ", matchObj.group(1))
-	        print("matchObj.group(2) : ", matchObj.group(2))
-	        print(m.start(0))
-	        print(m.end(0))
-	        print(m.span(0))
-	        log.info("matchObj.group(0) : ", matchObj.group(0))
-	        log.info("matchObj.group(1) : ", matchObj.group(1))
-	        log.info("matchObj.group(2) : ", matchObj.group(2))
-	        log.info(m.start(0))
-	        log.info(m.end(0))
-	        log.info(m.span(0))
+	        Re_log.info("matchObj.group(0) : ", matchObj.group(0))
+	        Re_log.info("matchObj.group(1) : ", matchObj.group(1))
+	        Re_log.info("matchObj.group(2) : ", matchObj.group(2))
+	        Re_log.info(m.start(0))
+	        Re_log.info(m.end(0))
+	        Re_log.info(m.span(0))
 	    else:
-	        print ("No match!!")
+	        Re_log.info("No match!!")
+
+
 
 ## Power - 电源
 
 模块功能，提供关机，重启，获取电池电压。
 
-
->关机以及软件重启
 
 ### 模块关机
 >Power.powerDown()
@@ -1391,9 +1412,6 @@ ure.search 扫描整个字符串并返回第一个成功的匹配。
 
 0：未知
 
-- 注意
-
-C25PA平台支持仅不支持重启原因5。
 
 ### 获取模块上次关机原因
 >Power. powerDownReason()
@@ -1449,11 +1467,11 @@ int类型电压值。
 
 |常量|适配平台|说明|
 |----|-------|----|
-|Pin.GPIO1|  |GPIO1|
-|Pin.GPIO2|  |GPIO2|
-|Pin.GPIO3|  |GPIO3|
-|Pin.GPIO4|  |GPIO4|
-|Pin.GPIO5|  |GPIO5|
+|Pin.GPIO1|--  |GPIO1|
+|Pin.GPIO2|--  |GPIO2|
+|Pin.GPIO3| -- |GPIO3|
+|Pin.GPIO4| -- |GPIO4|
+|Pin.GPIO5| -- |GPIO5|
 |Pin.IN|--|输入模式|
 |Pin.OUT|--|输出模式|
 |Pin.PULL_DISABLE|--|浮空模式|
@@ -1521,6 +1539,7 @@ PIN脚电平，0-低电平，1-高电平。
 
 #### 使用示例
 
+	# Pin使用示例
 	from machine import pin
 	import utime
 	import log
@@ -1536,24 +1555,29 @@ PIN脚电平，0-低电平，1-高电平。
 	        0 设置引脚为低电平
 	        1 设置引脚为高电平
 	'''
-	#初始化GPIO3和GPIO4
-	GPIO3 = pin(pin.GPIO3, pin.OUT, pin.PULL_DISABLE, 1)
-	GPIO4 = pin(pin.GPIO4, pin.OUT, pin.PULL_DISABLE, 1)
-	while True:
-	    GPIO3.write(1)          #设置GPIO3为高电平
-	    GPIO4.write(1)          #设置GPIO4为高电平
-	    val3 = GPIO3.read()     #获取GPIO3的电平状态
-	    val4 = GPIO4.read()     #获取GPIO4的电平状态
-	    print('val3 = {}'.format(val3))
-	    print('val4 = {}'.format(val4))
-	    utime.sleep_ms(500)
-	    GPIO3.write(0)          #设置GPIO3为低电平
-	    GPIO4.write(0)          #设置GPIO4为低电平
-	    val3 = GPIO3.read()     #获取GPIO3的电平状态
-	    val4 = GPIO4.read()     #获取GPIO4的电平状态
-	    print('val3 = {}'.format(val3))
-	    print('val4 = {}'.format(val4))
-	    utime.sleep_ms(500)
+	#设置日志输出级别
+	log.basicConfig(level=log.INFO)
+	Pin_log = log.getLogger("Pin")
+	
+	if __name__ == '__main__':
+	    #初始化GPIO3和GPIO4
+	    GPIO3 = pin(pin.GPIO3, pin.OUT, pin.PULL_DISABLE, 1)
+	    GPIO4 = pin(pin.GPIO4, pin.OUT, pin.PULL_DISABLE, 1)
+	    while True:
+	        GPIO3.write(1)          #设置GPIO3为高电平
+	        GPIO4.write(1)          #设置GPIO4为高电平
+	        val3 = GPIO3.read()     #获取GPIO3的电平状态
+	        val4 = GPIO4.read()     #获取GPIO4的电平状态
+	        Pin_log.info('val3 = {}'.format(val3))
+	        Pin_log.info('val4 = {}'.format(val4))
+	        utime.sleep_ms(500)
+	        GPIO3.write(0)          #设置GPIO3为低电平
+	        GPIO4.write(0)          #设置GPIO4为低电平
+	        val3 = GPIO3.read()     #获取GPIO3的电平状态
+	        val4 = GPIO4.read()     #获取GPIO4的电平状态
+	        Pin_log.info('val3 = {}'.format(val3))
+	        Pin_log.info('val4 = {}'.format(val4))
+	        utime.sleep_ms(500)
 
 
 ### UART
@@ -1636,11 +1660,16 @@ PIN脚电平，0-低电平，1-高电平。
 
 #### 使用示例
 	
+	#串口UART示例
 	from machine import UART
 	import utime
 	import log
+	
+	log.basicConfig(level=log.INFO)
+	Uart_log = log.getLogger("Uart")
+	
 	#创建UART对象
-	uart1 = UART(UART.UART1, 115200, 8, 0, 1, 0)
+	uart1 = UART(UART.UART1, 115200 , 8, 0, 1, 0)
 	usb_cdc = UART(UART.UART3)
 	if __name__ == '__main__':
 	    while True:
@@ -1650,8 +1679,7 @@ PIN脚电平，0-低电平，1-高电平。
 	        if read_msg_len:
 	            #从串口读取数据
 	            read_msg = usb_cdc.read(read_msg_len)
-	            print("usb cdc msg:{}".format(read_msg))
-	            log.info("usb cdc msg:{}".format(read_msg))
+	            Uart_log.info("usb cdc msg:{}".format(read_msg))
 	            #发送数据到串口
 	            usb_cdc.write(read_msg)
 	        utime.sleep_ms(1)
@@ -1686,7 +1714,7 @@ PS:使用该定时器时需注意：定时器0-3，每个在同一时间内只�
 
 
 	>>> from machine import Timer
-	>>> timer1 = Timer(Timer.Timer1)  # 使用该定时器时需注意：定时器0-3，每个在同一时间内只能执行一件任务，且多个对象不可使用同一个定时器。
+	>>> timer1 = Timer(Timer.Timer1)  #使用该定时器时需注意：定时器0-3，每个在同一时间内只能执行一件任务，且多个对象不可使用同一个定时器。
 
 #### 启动定时器
 >timer.start(period, mode, callback)
@@ -1729,11 +1757,14 @@ PS:使用该定时器时需注意：定时器0-3，每个在同一时间内只�
 成功返回整型值0，失败返回整型值-1。
 
 #### 使用示例
-#timer模块示例
-
+	#timer模块示例
 	import utime
 	import log
 	from machine import timer
+	
+	#设置日志输出格式
+	log.basicConfig(level=log.INFO)
+	Timer_log = log.getLogger("Timer")
 	
 	num = 0
 	state = 1
@@ -1742,7 +1773,7 @@ PS:使用该定时器时需注意：定时器0-3，每个在同一时间内只�
 	#创建一个执行函数
 	def timer_test(t):
 	    print("timer run",num)
-	    log.info("timer run",num)
+	    Timer_log.info("timer run",num)
 	
 	if __name__ == '__main__':
 	    print("create")
@@ -1752,12 +1783,12 @@ PS:使用该定时器时需注意：定时器0-3，每个在同一时间内只�
 	    while state :
 	        num += 1
 	        if num > 10:
-	            print("timer stop")
-	            log.info("timer stop")
+	            Timer_log.info("timer stop")
 	            state = 0
 	            t.stop()   #关闭定时器
 	        pass
 	        utime.sleep(2)
+
 
 ### ExtInt
 
@@ -1830,7 +1861,6 @@ PS:使用该定时器时需注意：定时器0-3，每个在同一时间内只�
 
 #### 创建RTC对象
 >from machine import RTC
-
 >rtc = RTC()
 
 #### 设置和获取RTC时间
@@ -1871,8 +1901,30 @@ PS:使用该定时器时需注意：定时器0-3，每个在同一时间内只�
 	>>> rtc.datetime()
 	(2020, 3, 12, 4, 12, 12, 14, 0)
 
+#### 使用示例
 
+	#RTC示例
+	from machine import RTC
+	import log
+	
+	#设置日志输出级别
+	log.basicConfig(level=log.INFO)
+	Rtc_log = log.getLogger("Rtc")
+	
+	if __name__ == '__main__':
+	    Rtc_log.info("hello")
+	    #创建RTC对象
+	    rtc = RTC()
+	    Rtc_log.info("hello")
+	    #获取时间
+	    Rtc_log.info(rtc.datetime())
+	    Rtc_log.info("hello")
+	    #设置时间
+	    Rtc_log.info(rtc.datetime([2020, 3, 12, 1, 12, 12, 12, 0]))
+	    Rtc_log.info(rtc.datetime())
+	    
 
+    
 
 
 

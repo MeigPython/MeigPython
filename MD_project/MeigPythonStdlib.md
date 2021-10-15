@@ -189,27 +189,30 @@ gc 模块实现内存垃圾回收机制，该模块实现了CPython模块相应�
 	import gc
 	import utime
 	import log
+	#设置日志输出级别
+	log.basicConfig(level=log.INFO)
+	gc_log = log.getLogger("gc")
 	if __name__ == '__main__':
 	    #判断是否启用自动垃圾收集
 	    isenabled = gc.isenabled()
-	    log.info(isenabled)
+	    gc_log.info(isenabled)
 	    #禁用自动垃圾收集
 	    gc.disable()
 	    isenabled = gc.isenabled()
-	    log.info(isenabled)
+	    gc_log.info(isenabled)
 	    #启用自动垃圾收集
 	    gc.enable()
 	    isenabled = gc.isenabled()
-	    log.info(isenabled)
+	    gc_log.info(isenabled)
 	    while True :
 	        #系统睡眠1秒
 	        utime.sleep(1)
 	        #返回分配的堆RAM字节数
 	        mem_alloc = gc.mem_alloc()
-	        log.info(mem_alloc)
+	        gc_log.info(mem_alloc)
 	        #返回可用堆RAM的字节数，如果不知道这个数量，则返回-1
 	        mem_free = gc.mem_free()
-	        log.info(mem_free)
+	        gc_log.info(mem_free)
 	        #系统睡眠1秒
 	        utime.sleep(1)
 	        #回收没有被使用的空间
@@ -238,14 +241,14 @@ binascii模块实现了二进制数据与各种ASCII编码之间的转换（双�
 
 	>>> import binascii
 	# 没有sep参数
-	>>> binascii.hexlify('\x11\x22123')
+	>>> binascii.hexlify('\\x11\x22123')
 	b'1122313233'
 	>>> binascii.hexlify('abcdfg')
 	b'616263646667'
 	# 指定了第二个参数sep，它将用于分隔两个十六进制数
-	>>> binascii.hexlify('\x11\x22123', ' ')
+	>>> binascii.hexlify('\\x11\x22123', ' ')
 	b'11 22 31 32 33'
-	>>> binascii.hexlify('\x11\x22123', ',')
+	>>> binascii.hexlify('\\x11\x22123', ',')
 	b'11,22,31,32,33'
 
 ### 将十六进制形式的字符串转换成二进制形式的字符串表示
@@ -263,28 +266,26 @@ binascii模块实现了二进制数据与各种ASCII编码之间的转换（双�
 	#binascii模块示例
 	import binascii
 	import log
+	
+	#设置日志输出级别
+	log.basicConfig(level=log.INFO)
+	Binascii_log = log.getLogger("Binascii")
+	
 	if __name__ == '__main__':
 	    a = 'hello world'.encode()   
-	    print(a)
-	    log.info(a)
+	    Binascii_log.info(a)
 	    #返回二进制数据的16进制的表现形式
 	    a1 = binascii.hexlify(a)
-	    print(a1)
-	    log.info(a1)
+	    Binascii_log.info(a1)
 	    #将二进制的数据转换为base64数据,并返回该base64数据
 	    a2 = binascii.b2a_base64(a1)    
-	    print(a2)
-	    log.info(a2)
+	    Binascii_log.info(a2)
 	    #将base64的数据转换为二进制数据,并返回该二进制数据
 	    a3 = binascii.a2b_base64(a2)   
-	    print(a3)
-	    log.info(a3)
+	    Binascii_log.info(a3)
 	    #返回十六进制数据的二进制形式
 	    a4 = binascii.unhexlify(a3)
-	    print(a4)
-	    log.info(a4)
-
-
+	    Binascii_log.info(a4)
 
 ## collections - 集合和容器类型
 
@@ -310,6 +311,7 @@ ucollections 模块用于创建一个新的容器类型，用于保存各种对�
 	>>> t2 = mytuple(2, "bar")
 	>>> print(t1.name)
 	foo
+
 ### 创建deque双向队列
 >dq = collections.deque(iterable, maxlen, flag)
 
@@ -373,37 +375,35 @@ deque对象
 	#内建集合模块ucollections示例
 	import ucollections
 	import log
+	
+	#设置日志输出级别
+	log.basicConfig(level=log.INFO)
+	Collections_log = log.getLogger("Collections")
+	
 	if __name__ == '__main__':
 	    #用于创建具有命名字段的tuple子类的factory函数
 	    MyTuple = ucollections.namedtuple("MyTuple", ("id", "name"))
 	    t1 = MyTuple(1, "foo")
 	    t2 = MyTuple(2, "bar")
-	    print(t1.name)
-	    print(t2.name)
-	    log.info(t1.name)
-	    log.info(t2.name)
+	    Collections_log.info(t1.name)
+	    Collections_log.info(t2.name)
 	    #创建一个双端队列
 	    q = ucollections.deque((), 3)
-	    print(len(q))
-	    log.info(len(q))
-	    print(q)
-	    log.info(q)
+	    Collections_log.info(len(q))
+	    Collections_log.info(q)
 	    #append在最右边添加一个元素
 	    q.append(1)    
 	    q.append(["m"])
 	    q.append("w")
-	    print(len(q))
-	    log.info(len(q))
+	    Collections_log.info(len(q))
 	    #popleft将最左边的元素取出
 	    q.popleft()
-	    print(len(q))
-	    log.info(len(q))
+	    Collections_log.info(len(q))
 	    q.popleft()
-	    print(len(q))
-	    log.info(len(q))
+	    Collections_log.info(len(q))
 	    q.popleft()
-	    print(len(q))
-	    log.info(len(q))
+	    Collections_log.info(len(q))
+ 
 
 ## random - 生成随机数
 
@@ -417,8 +417,8 @@ random模块提供了生成随机数的工具。
 示例：
 
 	>>> import urandom as random
-	>>> random.choice("QuecPython")
-	't'
+	>>> random.choice("MeigPython")
+	'y'
 	
 ### 随机产生一个在k bits范围内得十进制数
 >random.getrandbits(x)
@@ -514,44 +514,40 @@ random模块提供了生成随机数的工具。
 ### 使用用例
 
 	#random随机数示例
-
 	import urandom as random
-	import log 
-
+	import log
+	
+	#设置日志输出级别
+	log.basicConfig(level=log.INFO)   
+	random_log = log.getLogger("Random")
+	
 	if __name__ == '__main__':
-    #产生1到4的一个整数型随机数
-    num = random.randint(1, 4)
-    log.info(num)
-    print(num)
-
-    #返回随机生成的一个实数
-    num = random.random()
-    log.info(num)
-    print(num)
-
-    #产生  1.1 到 5.4 之间的随机浮点数，区间可以不是整数
-    num = random.uniform(2, 4)
-    log.info(num)
-    print(num)
-
-    #getrandbits(x)生成一个x比特长的随机整数
-    num = random.getrandbits(2)
-    log.info(num)
-    print(num)
-
-    num = random.getrandbits(8)
-    log.info(num)
-    print(num)
-
-    #生成从2到8的间隔为2的随机整数
-    num = random.randrange(2, 8, 2)
-    log.info(num)
-    print(num)
-
-    #从序列中随机选取一个元素
-    num = random.choice("QuecPython")
-    log.info(num)
-    print(num)
+	    #产生1到4的一个整数型随机数
+	    num = random.randint(1, 4)
+	    random_log.info(num)
+	
+	    #返回随机生成的一个实数
+	    num = random.random()
+	    random_log.info(num)
+	
+	    #产生  1.1 到 5.4 之间的随机浮点数，区间可以不是整数
+	    num = random.uniform(2, 4)
+	    random_log.info(num)
+	
+	    #getrandbits(x)生成一个x比特长的随机整数
+	    num = random.getrandbits(2)
+	    random_log.info(num)
+	
+	    num = random.getrandbits(8)
+	    random_log.info(num)
+	
+	    #生成从2到8的间隔为2的随机整数
+	    num = random.randrange(2, 8, 2)
+	    random_log.info(num)
+	
+	    #从序列中随机选取一个元素
+	    num = random.choice("MeigPython")
+	    random_log.info(num)
 
 ## math - 数学运算
 
@@ -844,116 +840,93 @@ math模块提供数学运算函数。该模块实现相应CPython模块的子集
 	# 数学运算math函数示例
 	import math
 	import log
-
+	
+	#设置日志输出级别
+	log.basicConfig(level=log.INFO)
+	Math_log = log.getLogger("Math")
+	
 	if __name__ == '__main__':
 	    #paw(x,y),输出x的y次方
 	    result = math.pow(2,3)
-	    log.info(1,result)
-	    print(result)
+	    Math_log.info(1,result)
 	    #ceil(x),取大于x的最小整数，如果x为一个整数，则返回本身
 	    result = math.ceil(5.21)
-	    log.info(2,result)
-	    print(result)
+	    Math_log.info(2,result)
 	    #acos(x),x的反余弦弧度值
 	    result = math.acos(0.4)
-	    log.info(3,result)
-	    print(result)
+	    Math_log.info(3,result)
 	    #asin(x),x的反正弦弧度值
 	    result = math.asin(0.5)
-	    log.info(4,result)
-	    print(result)
+	    Math_log.info(4,result)
 	    #atan(x),x的反正切弧度制
 	    result = math.atan(1)
-	    log.info(5,result)
-	    print(result)
+	    Math_log.info(5,result)
 	    #atan2(x,y),返回给定的X及Y坐标值的反正切值。
 	    result = math.atan2(1,2)
-	    log.info(6,result)
-	    print(result)
+	    Math_log.info(6,result)
 	    #copysign(x,y),把y的正负号加到x前面,可以使用0
 	    result = math.copysign(2,-3)
-	    log.info(7,result)
-	    print(result)
+	    Math_log.info(7,result)
 	    #cos(x)求x的余弦，x必须是弧度
 	    result = math.cos(math.pi)
-	    log.info(8,result)
-	    print(result)
+	    Math_log.info(8,result)
 	    #degrees(x)把x从弧度转化为角度
 	    result = math.degrees(math.pi)
-	    log.info(9,result)
-	    print(result)
+	    Math_log.info(9,result)
 	    #e表示一个常数
 	    result = math.e
-	    log.info(10,result)
-	    print(result)
+	    Math_log.info(10,result)
 	    #exp(x),返回math.e的x次方
 	    result = math.exp(2)
-	    log.info(11,result)
-	    print(result)
+	    Math_log.info(11,result)
 	    #fabs(x)返回x的绝对值
 	    result = math.fabs(-0.782)
-	    log.info(12,result)
-	    print(result)
+	    Math_log.info(12,result)
 	    #floor(x)取小于等于x的最大的整数值，x为整数时取自己本身
 	    result = math.floor(5.21)
-	    log.info(13,result)
-	    print(result)
+	    Math_log.info(13,result)
 	    #fmod(x,y),取x/y的余数，其值为一个浮点数
 	    result = math.fmod(3,1)
-	    log.info(14,result)
-	    print(result)
+	    Math_log.info(14,result)
 	    #modf(x)返回由x的小数部分和整数部分组成的元组
 	    result = math.modf(5.1)
-	    log.info(15,result)
-	    print(result)
+	    Math_log.info(15,result)
 	    #frexp(x)返回一个元组(m,e),其计算方式为：x分别除0.5和1,得到一个值的范围，2e的值在这个范围内，e取符合要求的最大整数值,然后x/(2e),得到m的值。如果x等于0,则m和e的值都为0,m的绝对值的范围为(0.5,1)之间，不包括0.5和1
 	    result = math.frexp(12)
-	    log.info(16,result)
-	    print(result)
+	    Math_log.info(16,result)
 	    #isfinite(x),如果x不是无穷大的数字，返回True，否则返回false
 	    result = math.isfinite(123)
-	    log.info(17,result)
-	    print(result)
+	    Math_log.info(17,result)
 	    #isinf(x),如果x是正无穷大或者负无穷大，则返回True，否则返回false
 	    result = math.isinf(1)
-	    log.info(18,result)
-	    print(result)
+	    Math_log.info(18,result)
 	    #isnan(x),如何X不是数字True，否则返回false
 	    result = math.isnan(12)
-	    log.info(19,result)
-	    print(result)
+	    Math_log.info(19,result)
 	    #ldexp(x,y)返回值为x*(2的y次方)的值
 	    result = math.ldexp(2,3)
-	    log.info(20,result)
-	    print(result)
+	    Math_log.info(20,result)
 	    #log(x)
 	    result = math.log(4)
-	    log.info(21,result)
-	    print(result)
+	    Math_log.info(21,result)
 	    #pi：数字常量，表示圆周率π
 	    result = math.pi
-	    log.info(22,result)
-	    print(result)
+	    Math_log.info(22,result)
 	    #radians(x)
 	    result = math.radians(10)
-	    log.info(23,result)
-	    print(result)
+	    Math_log.info(23,result)
 	    #sin(x),求x的正弦值，x为弧度
 	    result = math.sin(math.pi/2)
-	    log.info(24,result)
-	    print(result)
+	    Math_log.info(24,result)
 	    #sqrt(x),求x的平方根
 	    result = math.sqrt(4)
-	    log.info(25,result)
-	    print(result)
+	    Math_log.info(25,result)
 	    #tan(x),求x的正切值，x必须是弧度
 	    result = math.tan(math.pi/3)
-	    log.info(26,result)
-	    print(result)
+	    Math_log.info(26,result)
 	    #trunc(x),返回x的整数部分
 	    result = math.trunc(5.21)
-	    log.info(27,result)
-	    print(result)
+	    Math_log.info(27,result)
 	
 ## socket - socket模块
 
@@ -993,7 +966,7 @@ proto-协议号
 ### 将主机域名(host)和端口(port)转换为用于创建套接字的5元组序列
 >socket.getaddrinfo(host, port)
 
-将主机将主机域名(host)和端口(port)转换为用于创建套接字的5元组序列，元组结构如下：
+将主机域名(host)和端口(port)转换为用于创建套接字的5元组序列，元组结构如下：
 
 (family, type, proto, canonname, sockaddr)
 ### 允许服务端接受连接
@@ -1135,6 +1108,9 @@ socket.setblocking(False) 相当于 socket.settimeout(0)
 	import checkNet
 	import usocket
 	import log
+	#设置日志输出格式
+	log.basicConfig(level=log.INFO)
+	Socket_log = log.getLogger("Socket")
 	
 	PROJECT_NAME = "mPython_socket_example"
 	PROJECT_VERSION = "1.0.0"
@@ -1143,41 +1119,42 @@ socket.setblocking(False) 相当于 socket.settimeout(0)
 	if __name__ == '__main__':
 	    utime.sleep(5)
 	    #开机打印信息
-	    print(checknet.poweron_print_once())
+	    Socket_log.info(checknet.poweron_print_once())
 	    #等待网络就绪，超时时间内，只要检测到拨号成功，则会立即返回，否则阻塞到超时时间到才会退出
 	    stagecode, subcode = checknet.wait_network_connected(30)
-	    print('stagecode = {}, subcode = {}'.format(stagecode, subcode))
+	    Socket_log.info('stagecode = {}, subcode = {}'.format(stagecode, subcode))
 	    #网络状态判断
 	    if stagecode == 3 and subcode == 1:
 	        # 创建一个socket实例
 	        sock = usocket.socket(usocket.AF_INET, usocket.SOCK_STREAM)
 	        # 解析域名
 	        sockaddr=usocket.getaddrinfo('www.tongxinmao.com', 80)[0][-1]
-	        print(sockaddr)
+	        Socket_log.info(sockaddr)
 	        # 建立连接
 	        sock.connect(sockaddr)
 	        # 向服务端发送消息
 	        ret=sock.send('GET /News HTTP/1.1\r\nHost: www.tongxinmao.com\r\nAccept-Encoding: deflate\r\nConnection: keep-alive\r\n\r\n')
-	        print("send",ret)
+	        Socket_log.info("send",ret)
 	        #接收服务端消息
 	        data=sock.recv(256)
-	        print("recv",data)
+	        Socket_log.info("recv",data)
 	        #发送数据
 	        ret=sock.send('GET /News HTTP/1.1\r\nHost: www.tongxinmao.com\r\nAccept-Encoding: deflate\r\nConnection: keep-alive\r\n\r\n', sockaddr)
-	        print("send",ret)
+	        Socket_log.info("send",ret)
 	        #从套接字接收数据
 	        data=sock.recvfrom(256)
-	        print("recv",data)
+	        Socket_log.info("recv",data)
 	        # 关闭连接
 	        sock.close()   
 	    else:
 	        #将主机域名和端口转换为用于创建套接字的5元组序列
 	        sockaddr=usocket.getaddrinfo('www.tongxinmao.com', 80)
-	        print(sockaddr)   
+	        Socket_log.info(sockaddr)   
 	    
 	    while True :
 	        utime.sleep(2)
-	        print("wait")
+	        Socket_log.info("wait")
+
 	
 ## io - 输入输出流
 
@@ -1289,28 +1266,27 @@ uio 模块包含其他类型的stream（类文件）对象和辅助函数。该�
 
 	import ustruct
 	import log
+	#设置日志输出级别
+	log.basicConfig(level=log.INFO)
+	Struct_log = log.getLogger("Struct")
+	
 	if __name__ == '__main__':
 	    #alcsize('i'),计算'i'占用多少字节的内存
 	    res = ustruct.calcsize('i')
-	    print(res)
-	    log.info(res)
+	    Struct_log.info(res)
 	    #pack(fmt, v1, v2, ...)根据所给的fmt描述的格式将值v1，v2转换为一个字符串
 	    res = ustruct.pack('i', 7)
-	    print(res)
-	    log.info(res)
+	    Struct_log.info(res)
 	    # unpack(fmt, bytes)根据所给的fmt描述的格式将bytes反向解析出来,返回一个元组
 	    res_n = ustruct.unpack('<i', b'\x07\x00\x00\x00')
-	    print(res_n)
-	    log.info(res_n)
+	    Struct_log.info(res_n)
 	    #ustruct.pack_into(fmt, buffer, offset, v1, v2, ...)按照格式字符串fmt压缩参数v1,v2, … 到缓冲区 buffer
 	    res_w = bytearray(20)
 	    ustruct.pack_into('ii', res_w, 0, 9, 8)
-	    print(res_w)
-	    log.info(res_w)
+	    Struct_log.info(res_w)
 	    #ustruct.unpack_from(fmt, data, offset=0)从 fmt的offset开始解压数据如果offset是负数就是从缓冲区末尾开始计算
 	    res_m = ustruct.unpack_from('<2i', res_w, 0)
-	    print(res_m)
-	    log.info(res_m)
+	    Struct_log.info(res_m)
 
 
 ## json - JSON编码和解码
@@ -1341,32 +1317,29 @@ ujson 模块实现在Python数据对象和JSON数据格式之间进行转换的�
 	#JSON数据转换示例
 	import ujson
 	import log
-
+	#设置日志输出级别
+	log.basicConfig(level=log.INFO)
+	Json_log = log.getLogger("Json")
+	
 	if __name__ == '__main__':
 	    #定义一个Dict型数据
 	    inp = {'bar': ('baz', None, 1, 2)}
-	    log.info(inp)
+	    Json_log.info(inp)
 	    #查询inp的格式
 	    type_inp = type(inp)
-	    log.info(type_inp)
+	    Json_log.info(type_inp)
 	
 	    # 将Dict转换为json
 	    s = ujson.dumps(inp)
-	    log.info(s)
+	    Json_log.info(s)
 	    type_s = type(s)
-	    log.info(type_s)
+	    Json_log.info(type_s)
 	
 	    # 将json转换为Dict
 	    outp = ujson.loads(s)
-	    log.info(outp)
+	    Json_log.info(outp)
 	    type_outp= type(outp)
-	    log.info(type_outp)
-    	print(inp)
-		print(type_inp)
-    	print(s)
-    	print(type_s)
-    	print(outp)
-    	print(type_outp)
+	    Json_log.info(type_outp)
 
 ## time - 时间相关功能
 
@@ -1389,9 +1362,9 @@ utime模块用于获取当前时间和日期、测量时间间隔和延迟。该
 
 	>>> import utime
 	>>> utime.localtime()
-	(2020, 9, 29, 8, 54, 42, 1, 273)
+	(2000, 1, 27, 1, 11, 27, 3, 27)
 	>>> utime.localtime(646898736)
-	(2020, 7, 1, 6, 5, 36, 2, 183)
+	(1990, 7, 2, 6, 5, 36, 0, 183)
 
 ### 反向格式化时间戳
 >utime.mktime(date)
@@ -1403,7 +1376,7 @@ utime模块用于获取当前时间和日期、测量时间间隔和延迟。该
 	>>> import utime
 	>>> date = (2020, 9, 29, 8, 54, 42, 1, 273)
 	>>> utime.mktime(date)
-	1601340882
+	1601369682
 
 ### 休眠给定秒数的时间
 >utime.sleep(seconds)
@@ -1456,49 +1429,43 @@ utime模块用于获取当前时间和日期、测量时间间隔和延迟。该
 >utime.setTimeZone(offset)
 
 设置时区，单位小时，范围[-12, 12]，负值表示西时区，正值表示东时区，0表示零时区。设置时区后，本地时间会随之变化为对应时区的时间。
-
+ 
 ### 使用示例
 
 	#日期和时间utime示例
 	import utime
 	import log
+	#设置日志输出级别
+	log.basicConfig(level=log.INFO)
+	Time_log = log.getLogger("Time")
+	
 	if __name__ == '__main__':
-    	for i in [0, 1, 2, 3, 4, 5]:
-        	utime.sleep(1)   # 休眠(单位 s)
-        	log.info(i)
-        	print(i)
-    	#localtime()接收时间戳（1970纪元后经过的浮点秒数）并返回当地时间下的时间元组 
-    	log.info(utime.localtime())
-    	print(utime.localtime())
-    	#gmtime()函数将一个时间戳转换为UTC时区（0时区）的struct_time
-    	log.info(utime.gmtime())
-    	print(utime.gmtime())
-    	#mktime()接收struct_time对象作为参数，返回用秒数来表示时间的浮点数
-    	log.info(utime.mktime(utime.localtime()))
-	    print(utime.mktime(utime.localtime()))      
-	    log.info(utime.ticks_ms())         #返回不断递增的毫秒计数器
-	    print(utime.ticks_ms())        
-	    log.info(utime.ticks_us())         #返回不断递增的微秒计数器
-	    print(utime.ticks_us())
-	    log.info(utime.ticks_cpu())        #和 ticks_ms/ticks_us类似，具有更高精度(使用 CPU 时钟)
-	    print(utime.ticks_cpu())
+	    for i in [0, 1, 2, 3, 4, 5]:
+	        utime.sleep(1)   # 休眠(单位 s)
+	        Time_log.info(i)
+	    #localtime()接收时间戳（1970纪元后经过的浮点秒数）并返回当地时间下的时间元组 
+	    Time_log.info(utime.localtime())
+	    #gmtime()函数将一个时间戳转换为UTC时区（0时区）的struct_time
+	    Time_log.info(utime.gmtime())
+	    #mktime()接收struct_time对象作为参数，返回用秒数来表示时间的浮点数
+	    Time_log.info(utime.mktime(utime.localtime()))     
+	    Time_log.info(utime.ticks_ms())         #返回不断递增的毫秒计数器     
+	    Time_log.info(utime.ticks_us())         #返回不断递增的微秒计数器
+	    Time_log.info(utime.ticks_cpu())        #和 ticks_ms/ticks_us类似，具有更高精度(使用 CPU 时钟)
 	    
 	    deadline = utime.ticks_add(utime.ticks_ms(), 200)
 	    while utime.ticks_diff(deadline, utime.ticks_ms()) > 0:
-	        print(utime.time())
-	        print(utime.time_ns())
-	        log.info(utime.time())
-	        log.info(utime.time_ns())
+	        Time_log.info(utime.time())
+	        Time_log.info(utime.time_ns())
 	
 	    for i in [0, 1, 2, 3, 4, 5]:
 	        utime.sleep_ms(1000)   # 休眠(单位 ms)
-	        log.onfo(i)
-	        print(i)
+	        Time_log.info(i)
 	
 	    for i in [0, 1, 2, 3, 4, 5]:
 	        utime.sleep_us(1000000)   # 休眠(单位 us)
-	        log.info(i)
-	        print(i)
+	        Time_log.info(i)
+
 
 ## sys - 系统相关功能
 
@@ -1606,6 +1573,9 @@ _thread 模块提供创建新线程的方法，并提供互斥锁。
 	import _thread
 	import log
 	import utime
+	#设置日志输出级别
+	log.basicConfig(level=log.INFO)
+	Thread_log = log.getLogger("Thread")
 	
 	a = 0
 	state = 1
@@ -1613,25 +1583,24 @@ _thread 模块提供创建新线程的方法，并提供互斥锁。
 	lock = _thread.allocate_lock()
 	
 	def th_func(delay, id):
-		global a
-		global state
-		while True:
-			lock.acquire()  # 获取锁
-			if a >= 10:
-				log.info('thread %d exit' % id)
-				lock.release()  # 释放锁
-				state = 0
-				break
-			a += 1
-			log.info('[thread %d] a is %d' % (id, a))
-			lock.release()  # 释放锁
-			utime.sleep(1)
+	    global a
+	    global state
+	    while True:
+	        lock.acquire()  # 获取锁
+	        if a >= 10:
+	            Thread_log.info('thread %d exit' % id)
+	            lock.release()  # 释放锁
+	            state = 0
+	            break
+	        a += 1
+	        Thread_log.info('[thread %d] a is %d' % (id, a))
+	        lock.release()  # 释放锁
+	        utime.sleep(1)
 	        
 	if __name__ == '__main__':
-		for i in range(2):
-			_thread.start_new_thread(th_func, (i + 1, i))   # 创建一个线程，当函数无参时传入空的元组
-	
-		while state:
+	    for i in range(2):
+	        _thread.start_new_thread(th_func, (i + 1, i))   # 创建一个线程，当函数无参时传入空的元组
+	    while state:
 			pass
 
 ## hashlib - 哈希算法
@@ -1696,11 +1665,14 @@ MD5哈希对象
 返回加密后字节类型的数据	
 
 ### 使用实例
-
+	
 	#哈希算法hashlib示例
 	import uhashlib
 	import ubinascii
 	import log
+	#设置日志输出级别
+	log.basicConfig(level=log.INFO)
+	Hashlib_log = log.getLogger("Hashlib")
 	if __name__ == '__main__':
 	    #通过构造函数获得一个hash对象
 	    hash_obj = uhashlib.sha256()
@@ -1708,15 +1680,13 @@ MD5哈希对象
 	    hash_obj.update(b"MeigPython")
 	    #获得16进制str类型的消息摘要
 	    res = hash_obj.digest()
-	    print(res)
-	    log.info(res)
+	    Hashlib_log.info(res)
 	    #b'\xea\xee\xf7T\xcf\x9c\xcd\xdbl\xdf\x0e\xf9\xdf\x0f\xd0_\x03m\x9e\x8a\xe4\
 	    #xd9\xc4\x10\x95A\xf1=\xfb\xab1\xc3'
 	    #转换二进制数据为16进制字符串
 	    hex_msg = ubinascii.hexlify(res)
-	    print(hex_msg)
-	    log.info(hex_msg)
-		#b'eaeef754cf9ccddb6cdf0ef9df0fd05f036d9e8ae4d9c4109541f13dfbab31c3'
+	    Hashlib_log.info(hex_msg)
+	    #b'eaeef754cf9ccddb6cdf0ef9df0fd05f036d9e8ae4d9c4109541f13dfbab31c3'
 
 
 
