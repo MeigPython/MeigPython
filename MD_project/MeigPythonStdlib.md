@@ -1568,6 +1568,20 @@ _thread 模块提供创建新线程的方法，并提供互斥锁。
 >_thread.delete_lock(lock)
 
 删除已经创建的锁。
+### 注意
+建立多线程，必须在建立完线程的py之后加上：while True :pass
+
+- 示例
+
+
+	if __name__ == '__main__':
+	    for i in range(2):
+	        print("entry start")
+	        _thread.start_new_thread(th_func, (i + 1, i))
+	    while True:
+	        pass
+
+
 ### 使用示例
 
 	import _thread

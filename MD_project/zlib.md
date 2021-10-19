@@ -1,1 +1,0 @@
-uzlib 模块解压缩用DEFLATE算法压缩的二进制数据 （通常在zlib库和gzip存档器中使用），压缩尚未实现。该模块实现相应CPython模块的子集。更多信息请参阅CPython文档：zlib
