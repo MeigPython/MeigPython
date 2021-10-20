@@ -1606,12 +1606,12 @@ PIN脚电平，0-低电平，1-高电平。
 			
 类功能：uart串口数据传输。
 #### 常量说明
-|常量|说明|
-|----|---|
-|UART.UART0|UART0|
-|UART.UART1|UART1|
-|UART.UART2|UART2|
-|UART.UART3|UART3|
+|常量|说明|备注|
+|----|---|---|
+|UART.UART0|UART0|DEBUG PORT----硬件串口3 需要引线|
+|UART.UART1|UART1|BT PORT  ----硬件串口2 需要引线，如果有蓝牙功能，就不能作为uart功能|
+|UART.UART2|UART2|MAIN PORT---硬件串口1   就是数传at 串口|
+|UART.UART3|UART3|USB CDC PORT -- usb口虚拟的第七个口，  就是usb两个预留口的一个|
 
 #### 创建uart对象
 >uart = UART(UART.UARTn, buadrate, databits, parity, stopbits, flowctl)
