@@ -1350,15 +1350,15 @@ ure.search 扫描整个字符串并返回第一个成功的匹配。
 	    else:
 	        Re_log.info("No match!!")
 
+## misc - 其他
 
-
-## Power - 电源
+### Power - 电源
 
 模块功能，提供关机，重启，获取电池电压。
 
 
-### 模块关机
->power.powerDown()
+#### 模块关机
+>Power.powerDown()
 
 模块关机。
 
@@ -1370,8 +1370,8 @@ ure.search 扫描整个字符串并返回第一个成功的匹配。
 
 无
 
-### 模块重启
->power.powerRestart()
+#### 模块重启
+>Power.powerRestart()
 
 模块重启。
 
@@ -1383,8 +1383,8 @@ ure.search 扫描整个字符串并返回第一个成功的匹配。
 
 无
 
-### 获取模块启动原因
->power. powerOnReason()
+#### 获取模块启动原因
+>Power. powerOnReason()
 
 获取模块启动原因。
 
@@ -1411,8 +1411,8 @@ ure.search 扫描整个字符串并返回第一个成功的匹配。
 0：未知
 
 
-### 获取模块上次关机原因
->power. powerDownReason()
+#### 获取模块上次关机原因
+>Power. powerDownReason()
 
 获取模块上次关机原因。
 
@@ -1436,8 +1436,8 @@ ure.search 扫描整个字符串并返回第一个成功的匹配。
 
 0：未知
 
-### 获取电池电压
->power. getVbatt()
+#### 获取电池电压
+>Power. getVbatt()
 
 获取电池电压，单位mV。
 
@@ -1455,10 +1455,10 @@ int类型电压值。
 	>>> Power.getVbatt()
 	3590
 
-### 使用示例
+#### 使用示例
 
 	#Power示例
-	from misc import power
+	from misc import Power
 	import utime
 	import log 
 	
@@ -1470,13 +1470,248 @@ int类型电压值。
 	        utime.sleep(1)
 	        Power_log.info("hello")
 	    #获取电池电压，单位mv
-	    u = power.getVbatt()
+	    u = Power.getVbatt()
 	    Power_log.info(u)
 	    #获取模块启动原因
-	    reason = power.powerOnReason()
+	    reason = Power.powerOnReason()
 	    Power_log.info(reason)
 	    #模块重启
-	    power.powerRestart()
+	    Power.powerRestart()
+
+### PowerKey
+
+提供power key按键回调注册功能接口。
+
+#### 创建PowerKey对象
+
+> from misc import PowerKey
+>
+> pk = PowerKey()
+
+- 参数
+
+  无
+
+- 返回值
+
+  返回一个对象
+
+
+
+
+#### 注册回调函数
+
+> pk.powerKeyEventRegister(usrFun)
+
+- 参数
+
+| 参数   | 参数类型 | 参数说明                                    |
+| ------ | -------- | ------------------------------------------- |
+| usrFun | function | 回调函数，按下或松开power key按键时触发回调 |
+
+- 返回值
+
+  注册成功返回整型0，失败返回整型-1。
+
+- 注意
+
+
+  展锐平台，对于powerkey，只在按键松开时才会触发回调函数，并且按键按下的时间需要维持500ms以上。
+
+
+
+
+### PWM
+
+
+#### 常量说明
+
+| 常量     | 说明 | 
+| -------- | ---- |
+| PWM.PWM0 | PWM0 | 
+| PWM.PWM1 | PWM1 |             
+| PWM.PWM2 | PWM2 |              
+| PWM.PWM3 | PWM3 |      
+
+
+
+#### 创建一个pwm对象
+
+> from misc import PWM
+>
+> pwm = PWM(PWM.PWMn,PWM.ABOVE_xx, highTime, cycleTime)
+
+- 参数
+
+| 参数      | 参数类型 | 参数说明                                                     |
+| --------- | -------- | ------------------------------------------------------------ |
+| PWMn      | int      | |
+
+
+
+#### 开启PWM输出
+
+> pwm.open()
+
+开启PWM输出。
+
+- 参数
+
+无
+
+- 返回值
+
+成功返回整型0，失败返回整型-1。
+
+
+
+#### 关闭PWM输出
+
+> pwm.close()
+
+关闭PWM输出。
+
+- 参数
+
+无
+
+- 返回值
+
+成功返回整型0，失败返回整型-1。
+
+
+### ADC
+
+#### 常量说明
+
+| 常量     | 说明     |               
+| -------- | -------- | 
+| ADC.ADC0 | ADC通道0 | 
+| ADC.ADC1 | ADC通道1 |   
+| ADC.ADC2 | ADC通道2 | 
+| ADC.ADC3 | ADC通道3 |  
+
+
+
+#### 创建一个ADC对象
+
+> from misc import ADC
+>
+> adc = ADC()
+
+
+
+#### ADC功能初始化
+
+> adc.open()
+
+ADC功能初始化。
+
+- 参数
+
+无
+
+- 返回值
+
+成功返回整型0，失败返回整型-1。
+
+
+
+#### 读取通道电压值
+
+> adc.read(ADCn)
+
+读取指定通道的电压值，单位mV。
+
+- 参数
+
+| 参数 | 参数类型 | 参数说明                                                     |
+| ---- | -------- | ------------------------------------------------------------ |
+| ADCn | int      |      |
+
+- 返回值
+
+成功返回指定通道电压值，错误返回整型-1。
+
+- 示例
+
+```python
+>>>adc.read(ADC.ADC0)  #读取ADC通道0电压值
+613
+>>>adc.read(ADC.ADC1)  #读取ADC通道1电压值
+605
+```
+
+
+
+#### 关闭ADC
+
+> adc.close()
+
+关闭ADC。
+
+- 参数
+
+无
+
+- 返回值
+
+0关闭成功，-1关闭失败。
+
+### USB
+
+提供USB插拔检测接口。
+
+
+#### 创建USB对象
+
+> from misc import USB
+>
+> usb = USB()
+
+- 参数
+
+  无
+
+- 返回值
+
+  无
+
+  
+
+#### 获取当前USB连接状态
+
+> usb.getStatus()
+
+- 参数
+
+  无
+
+- 返回值
+
+  -1 - 获取状态失败
+
+  0 - USB当前没有连接
+
+  1 - USB已连接
+
+
+
+#### 注册回调函数
+
+> usb.setCallback(usrFun)
+
+- 参数
+
+| 参数   | 参数类型 | 参数说明                                                     |
+| ------ | -------- | ------------------------------------------------------------ |
+| usrFun | function | 回调函数，当USB插入或者拔出时，会触发回调来通知用户当前USB状态。注意：回调函数中不要进行阻塞性的操作。 |
+
+- 返回值
+
+  注册成功返回整型0，失败返回整型-1。
+
+
 
 
 ## machine - 硬件相关功能
@@ -1562,7 +1797,7 @@ PIN脚电平，0-低电平，1-高电平。
 #### 使用示例
 
 	# Pin使用示例
-	from machine import pin
+	from machine import Pin
 	import utime
 	import log
 	'''
@@ -1583,8 +1818,8 @@ PIN脚电平，0-低电平，1-高电平。
 	
 	if __name__ == '__main__':
 	    #初始化GPIO3和GPIO4
-	    GPIO3 = pin(pin.GPIO3, pin.OUT, pin.PULL_DISABLE, 1)
-	    GPIO4 = pin(pin.GPIO4, pin.OUT, pin.PULL_DISABLE, 1)
+	    GPIO3 = Pin(Pin.GPIO3, Pin.OUT, Pin.PULL_DISABLE, 1)
+	    GPIO4 = Pin(Pin.GPIO4, Pin.OUT, Pin.PULL_DISABLE, 1)
 	    while True:
 	        GPIO3.write(1)          #设置GPIO3为高电平
 	        GPIO4.write(1)          #设置GPIO4为高电平
@@ -1600,6 +1835,7 @@ PIN脚电平，0-低电平，1-高电平。
 	        Pin_log.info('val3 = {}'.format(val3))
 	        Pin_log.info('val4 = {}'.format(val4))
 	        utime.sleep_ms(500)
+
 
 
 ### UART
@@ -1779,10 +2015,11 @@ PS:使用该定时器时需注意：定时器0-3，每个在同一时间内只�
 成功返回整型值0，失败返回整型值-1。
 
 #### 使用示例
+	
 	#timer模块示例
 	import utime
 	import log
-	from machine import timer
+	from machine import Timer
 	
 	#设置日志输出格式
 	log.basicConfig(level=log.INFO)
@@ -1791,7 +2028,7 @@ PS:使用该定时器时需注意：定时器0-3，每个在同一时间内只�
 	num = 0
 	state = 1
 	
-	t = timer(1)
+	t = Timer(1)
 	#创建一个执行函数
 	def timer_test(t):
 	    print("timer run",num)
