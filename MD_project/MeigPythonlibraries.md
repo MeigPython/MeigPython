@@ -7,11 +7,11 @@
 - 参数
 |参数|参数类型|参数说明|
 |---|-------|-------|
-|profileIdx|int|PDP索引，ASR平台范围1-8，展锐平台范围1-7，一般设置为1，设置其他值可能需要专用apn与密码才能设置成功|
+|profileIdx|int|PDP索引，范围1-3，一般设置为1|
 |ipType|int|IP类型，0-IPV4，1-IPV6，2-IPV4和IPV6|
-|apn|string|apn名称，可为空，最大长度不超过63字节|
-|username|string|apn用户名，可为空，最大长度不超过15字节|
-|password|string|apn密码，可为空，最大长度不超过15字节|
+|apn|string|apn名称，可为空，最大长度不超过99字节|
+|username|string|apn用户名，可为空，最大长度不超过64字节|
+|password|string|apn密码，可为空，最大长度不超过64字节|
 |authType|int|加密方式，0-不加密，1-PAP，2-CHAP|
 - 返回值
 
