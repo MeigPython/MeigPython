@@ -1,14 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="2f51d5fc-a263-4f91-ad55-0cf86efe79c7" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MD_project/python/Python.md" beforeDir="false" afterPath="$PROJECT_DIR$/MD_project/python/Python.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_sidebar.md" beforeDir="false" afterPath="$PROJECT_DIR$/_sidebar.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution>
+      <executable />
+    </execution>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1yew1vB6xjaEnTSOjHRvQxLSyfj" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
   </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2f51d5fc-a263-4f91-ad55-0cf86efe79c7" name="Default Changelist" comment="" />
+      <created>1632648278263</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1632648278263</updated>
+      <workItem from="1632648282242" duration="16939000" />
+      <workItem from="1633769656091" duration="1011000" />
+      <workItem from="1633772276345" duration="605000" />
+      <workItem from="1634289297730" duration="894000" />
+      <workItem from="1634630747114" duration="696000" />
+      <workItem from="1634721752392" duration="719000" />
+      <workItem from="1634886564423" duration="950000" />
+      <workItem from="1635218593889" duration="1796000" />
+      <workItem from="1635220407444" duration="938000" />
+      <workItem from="1635227314038" duration="1741000" />
+      <workItem from="1635229126581" duration="1797000" />
+      <workItem from="1635235409587" duration="104000" />
+      <workItem from="1635236120354" duration="767000" />
+      <workItem from="1635236953709" duration="1527000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
   <component name="WindowStateProjectService">
-    <state x="640" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1632625155878">
+    <state x="700" y="323" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1635236131217">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="640" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1632625155878" />
+    <state x="700" y="323" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1635236131217" />
+    <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1632721684343">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1632721684343" />
+    <state x="640" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1635236968542">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="640" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1635236968542" />
   </component>
 </project>
