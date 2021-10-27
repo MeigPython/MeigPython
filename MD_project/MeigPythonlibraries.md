@@ -171,7 +171,7 @@ ipType =2，返回值格式如下：
 
 	>>> import sim
 	>>> sim.getImsi()
-	b'460011442119027'
+	'460011442119027'
 
 ### 获取ICCID
 >sim.getIccid()
@@ -185,7 +185,7 @@ ipType =2，返回值格式如下：
 
 
 	>>> sim.getIccid()
-	b'8986012180115044751'
+	'8986012180115044751'
 
 ### 获取电话号码
 >sim.getPhoneNumber()
@@ -1054,8 +1054,8 @@ subcode 表示 SIM卡的状态，范围[0, 21]，每个值的详细说明，请�
 
 
 	>>> import modem
-	>>> modem.getDevImei()
-	b'352273017386340
+	>>> modem.getImei()
+	'352273017386340'
 
 ### 获取设备型号
 >modem.getModel()
@@ -1074,7 +1074,7 @@ subcode 表示 SIM卡的状态，范围[0, 21]，每个值的详细说明，请�
 
 
 	>>> modem.getDevSN()
-	b'SLM320P_878463C_20211014_V42_T01'
+	'SLM320P_878463C_20211014_V42_T01'
 
 
 ### 获取设备序列号
@@ -1112,7 +1112,7 @@ subcode 表示 SIM卡的状态，范围[0, 21]，每个值的详细说明，请�
 - 示例
 
 
-	>>> modem.getDevFwVersion()
+	>>> modem.getVersion()
 	b'SLM320P_V42_T01
 
 ### 获取设备制造商ID
@@ -1131,8 +1131,8 @@ subcode 表示 SIM卡的状态，范围[0, 21]，每个值的详细说明，请�
 - 示例
 
 
-	>>> modem.getDevFwVersion()
-	b'MeiG'
+	>>> modem.getProductId()
+	'MeiG'
 
 ### 使用示例
 
@@ -1597,7 +1597,7 @@ int类型电压值。
 
 > from misc import ADC
 >
-> adc = ADC()
+> adc = ADC(ADC.ADC1)
 
 
 
@@ -1619,15 +1619,9 @@ ADC功能初始化。
 
 #### 读取通道电压值
 
-> adc.read(ADCn)
+> adc.read()
 
 读取指定通道的电压值，单位mV。
-
-- 参数
-
-| 参数 | 参数类型 | 参数说明                                                     |
-| ---- | -------- | ------------------------------------------------------------ |
-| ADCn | int      |      |
 
 - 返回值
 
@@ -1636,10 +1630,9 @@ ADC功能初始化。
 - 示例
 
 ```python
->>>adc.read(ADC.ADC0)  #读取ADC通道0电压值
-613
->>>adc.read(ADC.ADC1)  #读取ADC通道1电压值
-605
+>>>adc.read()  #读取ADC通道0电压值
+848
+
 ```
 
 
@@ -1722,18 +1715,38 @@ ADC功能初始化。
 
 #### 常量说明
 
-|常量|适配平台|说明|
-|----|-------|----|
-|Pin.GPIO1|--  |GPIO1|
-|Pin.GPIO2|--  |GPIO2|
-|Pin.GPIO3| -- |GPIO3|
-|Pin.GPIO4| -- |GPIO4|
-|Pin.GPIO5| -- |GPIO5|
-|Pin.IN|--|输入模式|
-|Pin.OUT|--|输出模式|
-|Pin.PULL_DISABLE|--|浮空模式|
-|Pin.PULL_PU|--|上拉模式|
-|Pin.PULL_PD|--|下拉模式|
+|常量|说明|
+|----|----|
+|Pin.GPIO1|GPIO1|
+|Pin.GPIO2|GPIO2|
+|Pin.GPIO3|GPIO3|
+|Pin.GPIO4|GPIO4|
+|Pin.GPIO5|GPIO5|
+|Pin.GPIO6|GPIO6|
+|Pin.GPIO7|GPIO13|
+|Pin.GPIO8|GPIO18|
+|Pin.GPIO9|GPIO23|
+|Pin.GPIO10|GPIO24|
+|Pin.GPIO11|GPIO25|
+|Pin.GPIO12|GPIO26|
+|Pin.GPIO13|GPIO27|
+|Pin.GPIO14|GPIO28|
+|Pin.GPIO15|GPIO29|
+|Pin.GPIO16|GPIO30|
+|Pin.GPIO17|GPIO31|
+|Pin.GPIO18|GPIO61|
+|Pin.GPIO19|GPIO62|
+|Pin.GPIO20|GPIO129|
+|Pin.GPIO21|GPIO130|
+|Pin.GPIO22|GPIO131|
+|Pin.GPIO23|GPIO132|
+|Pin.GPIO24|GPIO133|
+|Pin.GPIO25|GPIO139|
+|Pin.IN|输入模式|
+|Pin.OUT|输出模式|
+|Pin.PULL_DISABLE|浮空模式|
+|Pin.PULL_PU|上拉模式|
+|Pin.PULL_PD|下拉模式|
 
 #####  GPIO对应引脚说明
 文档中提供的GPIO引脚号对应的为模块外部的引脚编号，可参考提供的硬件资料查看模块外部的引脚编号。
