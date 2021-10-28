@@ -141,10 +141,9 @@ def append_element(some_list, element):
 ```text
 >>> '5' + 5
 ---------------------------------------------------------------------------
-TypeError                                 Traceback (most recent call last)
-<ipython-input-16-f9dbf5f0b234> in <module>()
-----> 1 '5' + 5
-TypeError: must be str, not int
+Traceback (most recent call last):
+  File "<stdin>", in <module>
+TypeError: can't convert 'int' object to str implicitly
 ```
 
 在某些语言中，例如Visual Basic，字符串‘5’可能被默许转换（或投射）为整数，因此会产生10。但在其它语言中，例如JavaScript，整数5会被投射成字符串，结果是联结字符串‘55’。在这个方面，Python被认为是强类型化语言，意味着每个对象都有明确的类型（或类），默许转换只会发生在特定的情况下，例如：
@@ -354,10 +353,9 @@ Python中的大多数对象，比如列表、字典、NumPy数组，和用户定
 
 >>> a_tuple[1] = 'four'
 ---------------------------------------------------------------------------
-TypeError                                 Traceback (most recent call last)
-<ipython-input-47-b7966a9ae0f1> in <module>()
-----> 1 a_tuple[1] = 'four'
-TypeError: 'tuple' object does not support item assignment
+Traceback (most recent call last):
+  File "<stdin>", in <module>
+NameError: name 'a_tuple' isn't defined
 ```
 
 记住，可以修改一个对象并不意味就要修改它。这被称为副作用。例如，当写一个函数，任何副作用都要在文档或注释中写明。如果可能的话，我推荐避免副作用，采用不可变的方式，即使要用到可变对象。
@@ -433,13 +431,11 @@ Python的字符串是不可变的，不能修改字符串：
 
 >>> a[10] = 'f'
 ---------------------------------------------------------------------------
-TypeError                                 Traceback (most recent call last)
-<ipython-input-57-5ca625d1e504> in <module>()
-----> 1 a[10] = 'f'
-TypeError: 'str' object does not support item assignment
 
 >>> b = a.replace('string', 'longer string')
-
+Traceback (most recent call last):
+  File "<stdin>", in <module>
+NameError: name 'a' isn't defined
 >>> b
 >>> 'this is a longer string'
 ```

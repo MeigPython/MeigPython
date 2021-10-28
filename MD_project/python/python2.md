@@ -45,10 +45,9 @@ Python的数据结构简单而强大。通晓它们才能成为熟练的Python�
 
 >>> tup[2] = False
 ---------------------------------------------------------------------------
-TypeError                                 Traceback (most recent call last)
-<ipython-input-10-c7308343b841> in <module>()
-----> 1 tup[2] = False
-TypeError: 'tuple' object does not support item assignment
+Traceback (most recent call last):
+  File "<stdin>", in <module>
+TypeError: 'tuple' object doesn't support item assignment
 ```
 
 如果元组中的某个对象是可变的，比如列表，可以在原位进行修改：
@@ -328,27 +327,6 @@ for chunk in list_of_lists:
 
 稍后，我们会学习``sorted``函数，它可以产生一个排好序的序列副本。
 
-### 二分搜索和维护已排序的列表
-``bisect``模块支持二分查找，和向已排序的列表插入值。``bisect.bisect``可以找到插入值后仍保证排序的位置，``bisect.insort``是向这个位置插入值：
-
-```python
->>> import bisect
-
->>> c = [1, 2, 2, 2, 3, 4, 7]
-
->>> bisect.bisect(c, 2)
->>> 4
-
->>> bisect.bisect(c, 5)
->>> 6
-
->>> bisect.insort(c, 6)
-
->>> c
->>> [1, 2, 2, 2, 3, 4, 6, 7]
-```
-
->注意：``bisect``模块不会检查列表是否已排好序，进行检查的话会耗费大量计算。因此，对未排序的列表使用``bisect``不会产生错误，但结果不一定正确。
 
 ### 切片
 用切边可以选取大多数序列类型的一部分，切片的基本形式是在方括号中使用``start:stop``：
@@ -680,10 +658,9 @@ for word in words:
 
 >>> hash((1, 2, [2, 3])) # fails because lists are mutable
 ---------------------------------------------------------------------------
-TypeError                                 Traceback (most recent call last)
-<ipython-input-129-800cd14ba8be> in <module>()
-----> 1 hash((1, 2, [2, 3])) # fails because lists are mutable
-TypeError: unhashable type: 'list'
+Traceback (most recent call last):
+  File "<stdin>", in <module>
+TypeError: unsupported type for __hash__: 'list'
 ```
 
 要用列表当做键，一种方法是将列表转化为元组，只要内部元素可以被哈希，它也就可以被哈希：
@@ -1274,10 +1251,9 @@ S ['Steven']
 
 >>> float('something')
 ---------------------------------------------------------------------------
-ValueError                                Traceback (most recent call last)
-<ipython-input-198-439904410854> in <module>()
-----> 1 float('something')
-ValueError: could not convert string to float: 'something'
+Traceback (most recent call last):
+  File "<stdin>", in <module>
+ValueError: invalid syntax for number
 ```
 
 假如想优雅地处理float的错误，让它返回输入值。我们可以写一个函数，在try/except中调用float：
@@ -1305,10 +1281,9 @@ def attempt_float(x):
 ```python
 >>> float((1, 2))
 ---------------------------------------------------------------------------
-TypeError                                 Traceback (most recent call last)
-<ipython-input-202-842079ebb635> in <module>()
-----> 1 float((1, 2))
-TypeError: float() argument must be a string or a number, not 'tuple'
+Traceback (most recent call last):
+  File "<stdin>", in <module>
+TypeError: can't convert tuple to float
 ```
 
 你可能只想处理ValueError，TypeError错误（输入不是字符串或数值）可能是合理的bug。可以写一个异常类型：
@@ -1326,16 +1301,13 @@ def attempt_float(x):
 ```python
 >>> attempt_float((1, 2))
 ---------------------------------------------------------------------------
-TypeError                                 Traceback (most recent call last)
-<ipython-input-204-9bdfd730cead> in <module>()
-----> 1 attempt_float((1, 2))
-<ipython-input-203-3e06b8379b6b> in attempt_float(x)
-      1 def attempt_float(x):
-      2     try:
-----> 3         return float(x)
-      4     except ValueError:
-      5         return x
-TypeError: float() argument must be a string or a number, not 'tuple'
+Traceback (most recent call last):
+  File "<stdin>", in <module>
+NameError: name 'attempt_float' isn't defined
+>>> attempt_float((1, 2))
+Traceback (most recent call last):
+  File "<stdin>", in <module>
+NameError: name 'attempt_float' isn't defined
 ```
 
 可以用元组包含多个异常：
@@ -1374,36 +1346,6 @@ finally:
     f.close()
 ```
 
-### IPython的异常
-如果是在%run一个脚本或一条语句时抛出异常，IPython默认会打印完整的调用栈（traceback），在栈的每个点都会有几行上下文：
-
-```python
->>> %run examples/ipython_bug.py
----------------------------------------------------------------------------
-AssertionError                            Traceback (most recent call last)
-/home/wesm/code/pydata-book/examples/ipython_bug.py in <module>()
-     13     throws_an_exception()
-     14
----> 15 calling_things()
-
-/home/wesm/code/pydata-book/examples/ipython_bug.py in calling_things()
-     11 def calling_things():
-     12     works_fine()
----> 13     throws_an_exception()
-     14
-     15 calling_things()
-
-/home/wesm/code/pydata-book/examples/ipython_bug.py in throws_an_exception()
-      7     a = 5
-      8     b = 6
-----> 9     assert(a + b == 10)
-     10
-     11 def calling_things():
-
-AssertionError:
-```
-
-自身就带有文本是相对于Python标准解释器的极大优点。你可以用魔术命令``%xmode``，从Plain（与Python标准解释器相同）到Verbose（带有函数的参数值）控制文本显示的数量。后面可以看到，发生错误之后，（用%debug或%pdb magics）可以进入stack进行事后调试。
 
 ### 文件和操作系统
 本书的代码示例大多使用诸如pandas.read_csv之类的高级工具将磁盘上的数据文件读入Python数据结构。但我们还是需要了解一些有关Python文件处理方面的基础知识。好在它本来就很简单，这也是Python在文本和文件处理方面的如此流行的原因之一。
@@ -1411,7 +1353,7 @@ AssertionError:
 为了打开一个文件以便读写，可以使用内置的open函数以及一个相对或绝对的文件路径：
 
 ```python
->>> path = 'examples/segismundo.txt'
+>>> path = '/usr/test.txt'
 
 >>> f = open(path)
 ```
@@ -1423,28 +1365,6 @@ for line in f:
     pass
 ```
 
-从文件中取出的行都带有完整的行结束符（EOL），因此你常常会看到下面这样的代码（得到一组没有EOL的行）：
-
-```python
->>> lines = [x.rstrip() for x in open(path)]
-
->>> lines
->>> 
-['Sueña el rico en su riqueza,',
- 'que más cuidados le ofrece;',
- '',
- 'sueña el pobre que padece',
- 'su miseria y su pobreza;',
- '',
- 'sueña el que a medrar empieza,',
- 'sueña el que afana y pretende,',
- 'sueña el que agravia y ofende,',
- '',
- 'y en el mundo, en conclusión,',
- 'todos sueñan lo que son,',
- 'aunque ninguno lo entiende.',
- '']
-```
 
 如果使用open创建文件对象，一定要用close关闭它。关闭文件可以返回操作系统资源：
 
@@ -1455,57 +1375,28 @@ for line in f:
 用with语句可以可以更容易地清理打开的文件：
 ```python
 >>> with open(path) as f:
-   .....:     lines = [x.rstrip() for x in f]
+		pass
 ```
 
 这样可以在退出代码块时，自动关闭文件。
 
-如果输入f =open(path,'w')，就会有一个新文件被创建在examples/segismundo.txt，并覆盖掉该位置原来的任何数据。另外有一个x文件模式，它可以创建可写的文件，但是如果文件路径存在，就无法创建。表3-3列出了所有的读/写模式。
+如果输入f =open(path,'w')，就会有一个新文件被创建在examples/segismundo.txt，并覆盖掉该位置原来的任何数据。另外有一个x文件模式，它可以创建可写的文件，但是如果文件路径存在，就无法创建。
 
-![表3-3 Python的文件模式](E:\QuecPython\demo_qpy\docs\python\images\1247.jpg)
 
 对于可读文件，一些常用的方法是read、seek和tell。read会从文件返回字符。字符的内容是由文件的编码决定的（如UTF-8），如果是二进制模式打开的就是原始字节：
 
 ```python
 >>> f = open(path)
 
->>> f.read(10)
->>> 'Sueña el r'
+>>> f.read()
+>>> 'MeigPython is very good\r\n'
 
 >>> f2 = open(path, 'rb')  # Binary mode
 
 >>> f2.read(10)
->>> b'Sue\xc3\xb1a el '
+>>> 'MeigPython'
 ```
 
-read模式会将文件句柄的位置提前，提前的数量是读取的字节数。tell可以给出当前的位置：
-
-```python
->>> f.tell()
->>> 11
-
->>> f2.tell()
->>> 10
-```
-
-尽管我们从文件读取了10个字符，位置却是11，这是因为用默认的编码用了这么多字节才解码了这10个字符。你可以用sys模块检查默认的编码：
-
-```python
->>> import sys
-
->>> sys.getdefaultencoding()
->>> 'utf-8'
-```
-
-seek将文件位置更改为文件中的指定字节：
-
-```python
->>> f.seek(3)
->>> 3
-
->>> f.read(1)
->>> 'ñ'
-```
 
 最后，关闭文件：
 
@@ -1515,42 +1406,15 @@ seek将文件位置更改为文件中的指定字节：
 >>> f2.close()
 ```
 
-向文件写入，可以使用文件的write或writelines方法。例如，我们可以创建一个无空行版的prof_mod.py：
-
-```python
->>> with open('tmp.txt', 'w') as handle:
-   .....:     handle.writelines(x for x in open(path) if len(x) > 1)
-
->>> with open('tmp.txt') as f:
-   .....:     lines = f.readlines()
-
->>> lines
->>> 
-['Sueña el rico en su riqueza,\n',
- 'que más cuidados le ofrece;\n',
- 'sueña el pobre que padece\n',
- 'su miseria y su pobreza;\n',
- 'sueña el que a medrar empieza,\n',
- 'sueña el que afana y pretende,\n',
- 'sueña el que agravia y ofende,\n',
- 'y en el mundo, en conclusión,\n',
- 'todos sueñan lo que son,\n',
- 'aunque ninguno lo entiende.\n']
-```
-
-表3-4列出了一些最常用的文件方法。
-
-![表3-4 Python重要的文件方法或属性](E:\QuecPython\demo_qpy\docs\python\images\1248.jpg)
-
 ### 文件的字节和Unicode
 Python文件的默认操作是“文本模式”，也就是说，你需要处理Python的字符串（即Unicode）。它与“二进制模式”相对，文件模式加一个b。我们来看上一节的文件（UTF-8编码、包含非ASCII字符）：
 
 ```python
 >>> with open(path) as f:
-   .....:     chars = f.read(10)
+   .....:     chars = f.read()
 
 >>> chars
->>> 'Sueña el r'
+>>> MeigPython is very good
 ```
 
 UTF-8是长度可变的Unicode编码，所以当我从文件请求一定数量的字符时，Python会从文件读取足够多（可能少至10或多至40字节）的字节进行解码。如果以“rb”模式打开文件，则读取确切的请求字节数：
@@ -1560,66 +1424,9 @@ UTF-8是长度可变的Unicode编码，所以当我从文件请求一定数量�
    .....:     data = f.read(10)
 
 >>> data
->>> b'Sue\xc3\xb1a el '
+>>> MeigPython is very good
 ```
 
-取决于文本的编码，你可以将字节解码为str对象，但只有当每个编码的Unicode字符都完全成形时才能这么做：
-
-```python
->>> data.decode('utf8')
->>> 'Sueña el '
-
->>> data[:4].decode('utf8')
----------------------------------------------------------------------------
-UnicodeDecodeError                        Traceback (most recent call last)
-<ipython-input-235-300e0af10bb7> in <module>()
-----> 1 data[:4].decode('utf8')
-UnicodeDecodeError: 'utf-8' codec can't decode byte 0xc3 in position 3: unexpecte
-d end of data
-```
-
-文本模式结合了open的编码选项，提供了一种更方便的方法将Unicode转换为另一种编码：
-
-```python
->>> sink_path = 'sink.txt'
-
->>> with open(path) as source:
-   .....:     with open(sink_path, 'xt', encoding='iso-8859-1') as sink:
-   .....:         sink.write(source.read())
-
->>> with open(sink_path, encoding='iso-8859-1') as f:
-   .....:     print(f.read(10))
-Sueña el r
-```
-
-注意，不要在二进制模式中使用seek。如果文件位置位于定义Unicode字符的字节的中间位置，读取后面会产生错误：
-
-```python
->>> f = open(path)
-
->>> f.read(5)
->>> 'Sueña'
-
->>> f.seek(4)
->>> 4
-
->>> f.read(1)
----------------------------------------------------------------------------
-UnicodeDecodeError                        Traceback (most recent call last)
-<ipython-input-243-7841103e33f5> in <module>()
-----> 1 f.read(1)
-/miniconda/envs/book-env/lib/python3.6/codecs.py in decode(self, input, final)
-    319         # decode input (taking the buffer into account)
-    320         data = self.buffer + input
---> 321         (result, consumed) = self._buffer_decode(data, self.errors, final
-)
-    322         # keep undecoded input until the next call
-    323         self.buffer = data[consumed:]
-UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb1 in position 0: invalid s
-tart byte
-
->>> f.close()
-```
 
 如果你经常要对非ASCII字符文本进行数据分析，通晓Python的Unicode功能是非常重要的。更多内容，参阅Python官方文档。
 

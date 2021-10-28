@@ -2196,34 +2196,169 @@ PS:使用该定时器时需注意：定时器0-3，每个在同一时间内只�
 	    Rtc_log.info(rtc.datetime())
 	    
 
-    
+### I2C
+
+类功能：用于设备之间通信的双线协议。
+
+#### 常量说明
+
+| 常量              |                   | 
+| ----------------- | ----------------- | 
+| I2C.I2C0          | i2c 通路索引号: 0 | 
+| I2C.I2C1          | i2c 通路索引号: 1 | 
+| I2C.STANDARD_MODE | 标准模式 |           
+| I2C.FAST_MODE | 快速模式      |                               
 
 
 
+#### 创建I2C对象
+
+> **from machine import I2C**
+>
+> **i2c_obj = I2C(I2Cn,  MODE)**
+
+* 参数说明
+
+| 参数 | 类型 | 说明                                                         |
+| ---- | ---- | ------------------------------------------------------------ |
+| I2Cn | int  | i2c 通路索引号:<br />I2C.I2C0 : 0  <br />I2C.I2C0 : 1        |
+| MODE | int  | i2c 的工作模式:<br />I2C.STANDARD_MODE : 0 标准模式<br />I2C.FAST_MODE ： 1 快速模式 |
+
+- 示例
+
+```python
+from machine import I2C
+
+i2c_obj = I2C(I2C.I2C0, I2C.STANDARD_MODE)  # 返回i2c对象
+```
 
 
 
+#### 读取数据
+
+> **I2C.read(slaveaddress, addr,addr_len, r_data, datalen, delay)**
+
+从 I2C 总线中读取数据。
+
+**参数说明**
+
+| 参数         | 类型      | 说明                             |
+| ------------ | --------- | -------------------------------- |
+| slaveaddress | int       | i2c 设备地址                     |
+| addr         | bytearray | i2c 寄存器地址                   |
+| addr_len     | int       | 寄存器地址长度                   |
+| r_data       | bytearray | 接收数据的字节数组               |
+| datalen      | int       | 字节数组的长度                   |
+| delay        | int       | 延时，数据转换缓冲时间（单位ms） |
+
+* 返回值
+
+成功返回整型值0，失败返回整型值-1。
 
 
 
+#### 写入数据
 
-	
+> **I2C.write(slaveaddress, addr, addr_len, data, datalen)**
+
+从 I2C 总线中写入数据。
+
+* 参数说明
+
+| 参数         | 类型      | 说明           |
+| ------------ | --------- | -------------- |
+| slaveaddress | int       | i2c 设备地址   |
+| addr         | bytearray | i2c 寄存器地址 |
+| addr_len     | int       | 寄存器地址长度 |
+| data         | bytearray | 写入的数据     |
+| datalen      | int       | 写入数据的长度 |
+
+* 返回值
+
+成功返回整型值0，失败返回整型值-1。
 
 
 
+### SPI
+
+类功能：串行外设接口总线协议。
+
+#### 创建SPI对象
+
+> **spi_obj = SPI(port, mode, clk)**
+
+* 参数说明
+
+| 参数 | 类型 | 说明                                                         |
+| ---- | ---- | ------------------------------------------------------------ |
+| port | int  | 通道选择[0,1]                                                |
+| mode | int  | SPI 的工作模式(模式0最常用):<br />时钟极性CPOL: 即SPI空闲时，时钟信号SCLK的电平（0:空闲时低电平; 1:空闲时高电平）<br /> 0 : CPOL=0, CPHA=0<br /> 1 : CPOL=0, CPHA=1<br /> 2:  CPOL=1, CPHA=0<br /> 3:  CPOL=1, CPHA=1 |
+| clk  | int  | 时钟频率<br /> 0 : 812.5kHz<br /> 1 : 1.625MHz<br /> 2 : 3.25MHz<br /> 3 : 6.5MHz<br /> 4 : 13MHz<br /> 5 :  26MH |
+
+
+- 示例
+
+```python
+from machine import SPI
+
+spi_obj = SPI(1, 0, 1)  # 返回spi对象
+```
 
 
 
-			
+#### 读取数据
+
+> **SPI.read(recv_data, datalen)**
+
+读取数据。
+
+* 参数说明
+
+| 参数      | 类型      | 说明               |
+| --------- | --------- | ------------------ |
+| recv_data | bytearray | 接收读取数据的数组 |
+| datalen   | int       | 读取数据的长度     |
+
+* 返回值
+
+失败返回整型值-1。
 
 
 
+#### 写入数据
+
+> **SPI.write(data, datalen)**
+
+写入数据。
+
+* 参数说明
+
+| 参数    | 类型  | 说明           |
+| ------- | ----- | -------------- |
+| data    | bytes | 写入的数据     |
+| datalen | int   | 写入的数据长度 |
+
+* 返回值
+
+失败返回整型值-1。
 
 
 
+#### 写入并读取数据
 
+> **SPI.write_read(r_data，data, datalen)**
 
+写入和读取数据。
 
+* 参数说明
 
+| 参数    | 类型      | 说明               |
+| ------- | --------- | ------------------ |
+| r_data  | bytearray | 接收读取数据的数组 |
+| data    | bytes     | 发送的数据         |
+| datalen | int       | 读取数据的长度     |
 
+* 返回值
+
+失败返回整型值-1。
 
