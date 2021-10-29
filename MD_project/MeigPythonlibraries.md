@@ -577,7 +577,7 @@ subcode 表示 SIM卡的状态，范围[0, 21]，每个值的详细说明，请�
 - 示例 
 
 
-	>>> modem.getDevSN()
+	>>> modem.getModel()
 	'SLM320P_878463C_20211014_V42_T01'
 
 
@@ -597,7 +597,7 @@ subcode 表示 SIM卡的状态，范围[0, 21]，每个值的详细说明，请�
 - 示例
 
 
-	>>> modem.getDevSN()
+	>>> modem.getSn()
 
 
 ### 获取固件版本号
