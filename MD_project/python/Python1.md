@@ -534,7 +534,7 @@ r表示raw。
 >>> val = "MeigPython"
 
 >>> val
->>> 'español'
+>>> 'MeigPython'
 ```
 
 可以用`encode`将这个Unicode字符串编码为UTF-8：

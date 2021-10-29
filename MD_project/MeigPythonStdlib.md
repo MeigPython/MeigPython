@@ -134,15 +134,16 @@ os模块包含文件系统访问和挂载构建，该模块实现了CPython模�
 - release – 底层系统的版本，string类型
 - version – MicroPython版本和构建日期，string类型
 - machine – 底层硬件(如主板、CPU)的标识符，string类型
-- qpyver – QuecPython 短版本号，string类型
 
 示例：
 
-	>>> import os
-	>>> os.uname()
-	('sysname=EC600S-CNLB', 'nodename=EC600S', 'release=1.12.0', 'version=v1.12 on 2020-06-23', 'machine=EC600S with QUECTEL', 'qpyver=V0001')
-	>>> os.uname()[0].split('=')[1] # 可通过这种方式来获取sysname的值
-	'EC600S-CNLB'
+```python
+>>> import uos
+>>> uos.uname()
+("sysname='SLM320P'", "nodename='SLM320P'", "release='SLM320P_5362727_20211029_V43_T01'", "version='SLM320P_V43_T01 on 2021-10-29 13:56:20'", "machine='SLM320P with MeiG'")
+>>> uos.uname()[0].split('=')[1] # 可通过这种方式来获取sysname的值
+'SLM320P'
+```
 
 ### 返回具有n个随机字节的bytes对象
 

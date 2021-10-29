@@ -1,3 +1,257 @@
+## example - 执行python脚本
+
+模块功能：提供方法让用户可以在命令行或者代码中执行python脚本。
+
+> example.exec(filePath)
+
+执行指定的python脚本文件。
+
+* 参数 
+
+| 参数     | 参数类型 | 参数说明                       |
+| -------- | -------- | ------------------------------ |
+| filePath | string   | 要执行python脚本文件的绝对路径 |
+
+* 返回值
+
+无
+
+* 示例
+
+```python
+# 假设有文件test.py,内容如下
+
+def myprint():
+    count = 10
+    while count > 0:
+        count -= 1
+        print('##### test #####')
+
+myprint()
+
+#将test.py文件上传到模块中，进入命令行执行如下代码
+>>> uos.listdir('/usr/')
+['apn_cfg.json', 'test.py']
+>>> import example
+>>> example.exec('/usr/test.py')
+# 执行结果如下
+
+##### test #####
+##### test #####
+##### test #####
+##### test #####
+##### test #####
+##### test #####
+##### test #####
+##### test #####
+##### test #####
+##### test #####
+```
+
+## log - 日志
+
+模块功能：系统日志记录,分级别日志工具。
+
+### 设置日志输出级别
+
+> log.basicConfig(level)
+
+设置日志输出级别,  设置日志输出级别, 默认为log.INFO，系统只会输出 level 数值大于或等于该 level 的的日志结果。
+
+* 参数
+
+| 参数     | 参数类型 | 说明                  |
+| -------- | -------- | --------------------- |
+| CRITICAL | 常量     | 日志记录级别的数值 50 |
+| ERROR    | 常量     | 日志记录级别的数值 40 |
+| WARNING  | 常量     | 日志记录级别的数值 30 |
+| INFO     | 常量     | 日志记录级别的数值 20 |
+| DEBUG    | 常量     | 日志记录级别的数值 10 |
+| NOTSET   | 常量     | 日志记录级别的数值 0  |
+
+* 示例
+
+```python
+import log
+log.basicConfig(level=log.INFO)
+```
+
+### 获取logger对象
+
+> log.getLogger(name)
+
+获取logger对象，如果不指定name则返回root对象，多次使用相同的name调用getLogger方法返回同一个logger对象。
+
+* 参数
+
+| 参数 | 参数类型 | 说明     |
+| ---- | -------- | -------- |
+| name | string   | 日志主题 |
+
+* 返回值
+
+log对象。
+
+* 示例
+
+```python
+import log
+Testlog = log.getLogger("TestLog")
+```
+
+### 输出debug级别的日志
+
+> log.debug(tag, msg)
+
+输出debug级别的日志。
+
+* 参数
+
+| 参数 | 参数类型 | 说明                         |
+| ---- | -------- | ---------------------------- |
+| tag  | string   | 模块或功能名称，作为日志前缀 |
+| msg  | string   | 可变参数，日志内容           |
+
+* 返回值
+
+无
+
+* 示例 
+
+```python
+import log
+Testlog = log.getLogger("TestLog")
+Testlog.debug("Test message: %d(%s)", 100, "foobar")
+```
+
+### 输出info级别的日志
+
+> log.info(tag,msg)
+
+输出info级别的日志。
+
+* 参数
+
+| 参数 | 参数类型 | 说明                         |
+| ---- | -------- | ---------------------------- |
+| tag  | string   | 模块或功能名称，作为日志前缀 |
+| msg  | string   | 可变参数，日志内容           |
+
+* 返回值
+
+无
+
+* 示例
+
+```python
+import log
+Testlog = log.getLogger("TestLog")
+Testlog.info("Test message: %d(%s)", 100, "foobar")
+```
+
+### 输出warning级别的日志
+
+> log.warning(tag,msg)
+
+输出warning级别的日志。
+
+* 参数
+
+| 参数 | 参数类型 | 说明                         |
+| ---- | -------- | ---------------------------- |
+| tag  | string   | 模块或功能名称，作为日志前缀 |
+| msg  | string   | 可变参数，日志内容           |
+
+* 返回值
+
+无
+
+* 示例
+
+```python
+import log
+Testlog = log.getLogger("TestLog")
+Testlog.warning("Test message: %d(%s)", 100, "foobar")
+```
+
+### 输出error级别的日志
+
+> log.error(tag,msg)
+
+输出error级别的日志。
+
+* 参数
+
+| 参数 | 参数类型 | 说明                         |
+| ---- | -------- | ---------------------------- |
+| tag  | string   | 模块或功能名称，作为日志前缀 |
+| msg  | string   | 可变参数，日志内容           |
+
+* 返回值
+
+无
+
+* 示例
+
+```python
+import log
+Testlog = log.getLogger("TestLog")
+Testlog.error("Test message: %d(%s)", 100, "foobar")
+```
+
+### 输出critical级别的日志
+
+> log.critical(tag,msg)
+
+输出critical级别的日志。
+
+* 参数
+
+| 参数 | 参数类型 | 说明                         |
+| ---- | -------- | ---------------------------- |
+| tag  | string   | 模块或功能名称，作为日志前缀 |
+| msg  | string   | 可变参数，日志内容           |
+
+* 返回值
+
+无
+
+* 示例
+
+```python
+import log
+Testlog = log.getLogger("TestLog")
+Testlog.critical("Test message: %d(%s)", 100, "foobar")
+```
+
+
+
+### log使用示例
+
+```python
+import log
+import utime
+import checkNet
+
+
+'''
+下面两个全局变量是必须有的，用户可以根据自己的实际项目修改下面两个全局变量的值
+'''
+PROJECT_NAME = "MeigPython_Log_example"
+PROJECT_VERSION = "1.0.0"
+
+# 设置日志输出级别
+log.basicConfig(level=log.ERROR)
+# 获取logger对象，如果不指定name则返回root对象，多次使用相同的name调用getLogger方法返回同一个logger对象
+log = log.getLogger("error")
+
+if __name__ == '__main__':
+    log.error("Test error message!!")
+	log.debug("Test debug message!!")
+    log.critical("Test critical message!!")
+    log.info("Test info message!!")
+    log.warning("Test warning message!!")
+```
 ## dataCall - 数据拨号
 模块功能：提供数据拨号相关接口。
 ### 拨号
@@ -322,7 +576,50 @@ ipType =2，返回值格式如下：
 	>>> net.csqQueryPoll()
 	31
 
+### 获取详细信号强度信息
 
+> net.getSignal()
+
+获取详细信号强度。
+
+* 参数
+
+无
+
+* 返回值
+
+失败返回整型值-1，成功返回一个元组，包含两个List(GW 、LTE)，返回值格式如下：
+
+`([rssi, bitErrorRate, rscp, ecno], [rssi, rsrp, rsrq, cqi])`
+
+返回值参数说明：
+
+GW list：
+
+`rssi` ：接收的信号强度
+
+`bitErrorRate` ：误码率
+
+`rscp` ：接收信号码功率
+
+`ecno` ：导频信道
+
+LTE list：
+
+`rssi` ：接收的信号强度
+
+`rsrp` ：下行参考信号的接收功率
+
+`rsrq` ：下行特定小区参考信号的接收质量
+
+`cqi` ：信道质量
+
+* 示例
+
+```python
+>>>net.getSignal()
+([99, 99, 255, 255], [-51, -76, -5, 255])
+```
 ### 获取当前基站时间
 >net.nitzTime()
 

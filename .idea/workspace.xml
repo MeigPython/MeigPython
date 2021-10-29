@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="2f51d5fc-a263-4f91-ad55-0cf86efe79c7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MD_project/MeigPythonlibraries.md" beforeDir="false" afterPath="$PROJECT_DIR$/MD_project/MeigPythonlibraries.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MD_project/python/Python1.md" beforeDir="false" afterPath="$PROJECT_DIR$/MD_project/python/Python1.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,6 +58,7 @@
       <workItem from="1635477908265" duration="1804000" />
       <workItem from="1635479727971" duration="724000" />
       <workItem from="1635486294797" duration="1202000" />
+      <workItem from="1635490065930" duration="666000" />
     </task>
     <servers />
   </component>
@@ -74,9 +74,9 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1632721684343" />
-    <state x="640" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1635486295312">
+    <state x="640" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1635490066458">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="640" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1635486295312" />
+    <state x="640" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1635490066458" />
   </component>
 </project>
