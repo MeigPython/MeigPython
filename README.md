@@ -21,3 +21,7 @@
 ## 了解更多 More
 请访问我们的 <font color=#FF0000>[官网](https://www.meigsmart.com/)</font> 
 Please visit our official website.
+
+更多信息也可扫描二维码，关注公众号。
+
+![](public.png)
