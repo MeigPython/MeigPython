@@ -173,6 +173,21 @@ ipType =2，返回值格式如下：
 	>>> sim.getImsi()
 	'460011442119027'
 
+### 获取Imei
+>sim.getImei()
+
+获取sim卡的Imei。
+- 参数
+无
+- 返回值
+成功返回string类型的Imei，失败返回整型-1。
+- 示例
+
+
+	>>> import sim
+	>>> sim.getImei()
+	'460011442119027'
+
 ### 获取ICCID
 >sim.getIccid()
 
@@ -221,155 +236,6 @@ ipType =2，返回值格式如下：
 |20|Invalid SIM card.|
 |21|Unknow status.|
 
-### PIN码验证
->sim.verifyPin(pin)
-
-sim卡PIN码验证。需要在调用sim.enablePin(pin)成功之后，才能进行验证，验证成功后，sim卡才能正常使用。
-- 参数
-
-|参数|参数类型|参数说明|
-|----|------|--------|
-|pin|string|PIN码，一般默认是‘1234’，最大长度不超过15字节|
-
-### SIM卡解锁
->sim.unblockPin(puk, newPin)
-
-sim卡解锁。当多次错误输入 PIN/PIN2 码后，SIM 卡状态为请求 PUK/PUK2 时，输入 PUK/PUK2 码和新的 PIN/PIN2 码进行解锁，puk码输入10次错误，SIM卡将被永久锁定自动报废。
-
-- 参数
-
-|参数|参数类型|参数说明|
-|----|-------|-------|
-|puk|string|PUK码，长度8位数字，最大长度不超过15字节|
-|newPin|string|新PIN码，最大长度不超过15字节|
-
-- 返回值
-
-解锁成功返回整型0，解锁失败返回整型-1。
-
-
-- 示例
-
-
-	>>> sim.unblockPin("12345678", "0000")
-
-### 更改SIM卡PIN码
->sim.changePin(oldPin, newPin)
-
-更改sim卡PIN码。
-
-- 参数
-
-|参数|参数类型|参数说明|
-|----|-------|-------|
-|oldpin|string|PUK码，长度8位数字，最大长度不超过15字节|
-|newpin|string|新PIN码，最大长度不超过15字节|
-
-- 返回值
-
-更改成功返回整型0，更改失败返回整型-1。
-
-
-- 示例
-
-
-	>>> sim.changePin("1234", "4321")
-
-### 读电话簿
->sim.readPhonebook(storage, start, end, username)
-
-获取 SIM 卡上指定电话本中的一条或多条电话号码记录。
-
-- 参数
-
-|参数|参数类型|参数说明|
-|----|-------|-------|
-|storage|int|需要读取电话号码记录的电话本存储位置，可选参数如下：<br>0 – DC，1 – EN，2 – FD，3 – LD，4 – MC，5 – ME，6 – MT，7 – ON，8 – RC，9 – SM，10 – AP，11 – MBDN，12 – MN，13 – SDN，14 – ICI，15 - OCI|
-|start|int|需要读取电话号码记录的起始编号，start为 0 表示不使用编号获取电话号码记，start应小于等于end|
-|end|int|需要读取电话号码记录的结束编号，必须满足：end - start <= 20|
-|username	|string|当 start为 0 时有效，电话号码中的用户名，暂不支持中文，最大长度不超过30字节<br>注意：按username进行匹配时，并不是按完整的单词进行匹配，只要电话簿中已有记录的name是以username开头，那么就会匹配上|
-
-- 返回值
-
-读取失败返回整型-1，成功返回一个元组，包含读取记录，格式如下：
-
-(record_number, [(index, username, phone_number), ... , (index, username, phone_number)])
-
-返回值参数说明：
-
-record_number – 读取的记录数量，整型
-
-index – 在电话簿中的索引位置，整型
-
-username – 姓名，string类型
-
-phone_number – 电话号码，string类型
-
-
-- 示例
-
-
-
-	>>> sim.readPhonebook(9, 1, 4, "")
-	(4,[(1,'Tom','15544272539'),(2,'Pony','15544272539'),(3,'Jay','18144786859'),(4,'Pondy','15544282538')])
-	>>> sim.readPhonebook(9, 0, 0, "Tom")
-	(1, [(1, 'Tom', '18144786859')])
-	>>> sim.readPhonebook(9, 0, 0, "Pony")
-	(1, [(2, 'Pony', '17744444444')])
-	>>> sim.readPhonebook(9, 0, 0, "Pon") #注意，这里只要是包含了‘pon’,都会被匹配上
-	(2, [(2, 'Pony', '17744444444'),(4,'Pondy','15544282538')])
-
-### 写电话簿
->sim. writePhonebook(storage, index, username, number)
-
-写入一条电话号码记录。
-
-- 参数
-
-|参数|参数类型|参数说明|
-|----|-------|-------|
-|storage|int|需要读取电话号码记录的电话本存储位置，可选参数如下：<br>0 – DC，1 – EN，2 – FD，3 – LD，4 – MC，5 – ME，6 – MT，7 – ON，8 – RC，9 – SM，10 – AP，11 – MBDN，12 – MN，13 – SDN，14 – ICI，15 - OCI|
-|index|int|需要写入电话号码记录的在电话簿中的编号，范围1~500|
-|username|string|电话号码的用户名，长度范围不超过30字节，暂不支持中文名|
-|number|string|电话号码，最大长度不超过20字节|
-- 返回值
-
-写入成功返回整型0，写入失败返回整型-1。
-
-
-- 示例
-
-
-	>>> sim.writePhonebook(9, 1, 'Tom', '18144786859')
-	0
-
-### 注册监听回调函数
->sim.setCallback(usrFun)
-
-注册监听回调函数。在接收短信时，会触发该回调函数。
-
-(该函数只有在SIM卡热插拔的宏打开的情况下才会存在，一般默认打开)
-
-- 参数
-
-|参数|参数类型|参数说明|
-|----|-------|------|
-|usrFun|function|监听回调函数，回调具体形式及用法见示例|
-
-- 返回值
-
-注册成功返回整型0，失败返回整型-1。
-
-- 示例
-
-
-	import sim
-	
-	def cb(args):
-	    simstates = args
-	    print('sim states:{}'.format(simstates))
-	    
-	sim.setCallback(cb)
 
 ### 使用示例
 
@@ -456,205 +322,6 @@ phone_number – 电话号码，string类型
 	>>> net.csqQueryPoll()
 	31
 
-### 获取小区信息
->net.getCellInfo()
-
-获取邻近 CELL 的信息。
-
-- 参数
-
-无
-
-- 返回值
-
-失败返回整型值-1，成功返回包含三种网络系统（GSM、UMTS、LTE）的信息的list，如果对应网络系统信息为空，则返回空的List。返回值格式如下：
-
-([(flag, cid, mcc, mnc, lac, arfcn, bsic, rssi)], [(flag, cid, licd, mcc, mnc, lac, arfcn, bsic, rssi)], [(flag, cid, mcc, mnc, pci, tac, earfcn, rssi),...])
-
-GSM网络系统返回值说明
-
-|参数|参数意义|
-|----|-------|
-|flag|返回 0 - 2， 0：present，1：inter，2：intra|
-|cid|返回cid信息，0则为空|
-|mcc|移动设备国家代码|
-|mnc|移动设备网络代码|
-|lac|位置区码|
-|arfcn|无线频道编号|
-|bsic|基站识别码|
-|rssi|接收的信号强度|
-
-UMTS网络系统返回值说明
-
-|参数|参数意义|
-|----|-------|
-|flag|返回 0 - 2， 0：present，1：inter，2：intra|
-|cid|返回cid信息，0则为空|
-|lcid|区域标识号|
-|mcc|移动设备国家代码|
-|mnc|移动设备网络代码|
-|lac|位置区码u|
-|uarfcn|无线频道编号|
-|psc|基站识别码|
-|rssi|接收的信号强度|
-
-LTE网络系统返回值说明
-
-|参数|参数意义|
-|----|-------|
-|flag|返回 0 - 2， 0：present，1：inter，2：intra|
-|cid|返回cid信息，0则为空|
-|mcc|移动设备国家代码|
-|mnc|移动设备网络代码|
-|pci|小区标识|
-|tac|Tracing area code|
-|earfcn|无线频道编号 范围: 0 - 65535|
-|rssi|接收的信号强度|
-
-- 示例
-
-
-	>>> net.getCellInfo()
-	([], [], [(0, 14071232, 1120, 0, 123, 21771, 1300, -69), (3, 0, 0, 0, 65535, 0, 40936, -140), (3, 0, 0, 0, 65535, 0, 3590, -140), (3, 0, 0, 0, 63, 0, 40936, -112)])
-
-### 获取网络制式及漫游配置
->net.getConfig()
-
-获取当前网络模式、漫游配置。
-
-- 参数
-
-无
-
-- 返回值
-
-失败返回整型值-1，成功返回一个元组，包含当前首选的网络制式与漫游打开状态。
-
-网络制式
-
-|值|网络制式|
-|--|-------|
-|0|GSM|
-|1|UMTS . not supported in EC100Y|
-|2|GSM_UMTS, auto. not supported in EC100Y and EC200S|
-|3|GSM_UMTS, GSM preferred. not supported in EC100Y and EC200S|
-|4|SM_UMTS, UMTS preferred. not supported in EC100Y and EC200S|
-|5|LTE|
-|6|GSM_LTE, auto, single link|
-|7|GSM_LTE, GSM preferred, single link|
-|8|GSM_LTE, LTE preferred, single link|
-|9|UMTS_LTE, auto, single link. not supported in EC100Y and EC200S|
-|10|UMTS_LTE, UMTS preferred, single link. not supported in EC100Y and EC200S|
-|11|UMTS_LTE, LTE preferred, single link . not supported in EC100Y and EC200S|
-|12|GSM_UMTS_LTE, auto, single link. not supported in EC100Y and EC200S|
-|13|GSM_UMTS_LTE, GSM preferred, single link. not supported in EC100Y and EC200S|
-|14|GSM_UMTS_LTE, UMTS preferred, single link. not supported in EC100Y and EC200S|
-|15|GSM_UMTS_LTE, LTE preferred, single link. not supported in EC100Y and EC200S|
-|16|GSM_LTE, dual link|
-|17|UMTS_LTE, dual link. not supported in EC100Y and EC200S|
-|18|GSM_UMTS_LTE, dual link. not supported in EC100Y and EC200S|
-
-- 示例
-
-
-	>>>net.getConfig ()
-	(8, False)
-
-### 设置网络制式及漫游配置
->net.setConfig(mode, roaming)
-
-设置网络模式，漫游配置。
-
-- 参数
-
-|参数|参数类型|参数说明|
-|----|-------|------|
-|mode|int|网络制式，0~18，详见上述网络制式表格|
-|roaming|int|漫游开关(0：关闭， 1：开启)|
-
-- 返回值
-
-设置成功返回整型值0，设置失败返回整型值-1。
-
-### 获取网络配置模式
->net.getNetMode()
-
-获取网络配置模式。
-
-- 参数
-
-无
-
-- 返回值
-
-失败返回整型值-1，成功返回一个元组，格式为：(selection_mode, mcc, mnc, act)
-
-返回值参数说明： selection_mode ：方式，0 - 自动，1 - 手动 mcc ：移动设备国家代码 mnc ：移动设备网络代码 act ：首选网络的ACT模式
-
-ACT模式
-
-|值|ACT模式|
-|---|------|
-|0|GSM|
-|1|COMPACT|
-|2|UTRAN|
-|3|GSM wEGPRS|
-|4|UTRAN wHSDPA|
-|5|UTRAN wHSUPA|
-|6|UTRAN wHSDPA HSUPA|
-|7|E UTRAN|
-|8|UTRAN HSPAP|
-|9|E TRAN A|
-|10|NONE|
-
-- 示例
-
-
-	>>> net.getNetMode()
-	(0, '460', '46', 7)
-
-### 获取详细信号强度信息
->net.getSignal()
-
-获取详细信号强度。
-
-- 参数
-
-无
-
-- 返回值
-
-失败返回整型值-1，成功返回一个元组，包含两个List(GW 、LTE)，返回值格式如下：
-
-([rssi, bitErrorRate, rscp, ecno], [rssi, rsrp, rsrq, cqi])
-
-返回值参数说明：
-
-GW list：
-
-rssi ：接收的信号强度
-
-bitErrorRate ：误码率
-
-rscp ：接收信号码功率
-
-ecno ：导频信道
-
-LTE list：
-
-rssi ：接收的信号强度
-
-rsrp ：下行参考信号的接收功率
-
-rsrq ：下行特定小区参考信号的接收质量
-
-cqi ：信道质量
-
-- 示例
-
-
-	>>>net.getSignal()
-	([99, 99, 255, 255], [-51, -76, -5, 255])
 
 ### 获取当前基站时间
 >net.nitzTime()
@@ -683,170 +350,7 @@ leap_sec ：闰秒数，整型
 	>>> net.nitzTime()
 	('20/11/26 02:13:25+32', 1606356805, 0)
 
-### 获取运营商信息
->net.operatorName()
 
-获取当前注网的运营商信息。
-
-- 参数
-
-无
-
-- 返回值
-
-失败返回整型值-1，成功返回一个元组，包含注网的运营商信息，格式为：
-
-(long_eons, short_eons, mcc, mnc)
-
-long_eons ：运营商信息全称，string类型
-
-short_eons ：运营商信息简称，string类型
-
-mcc ：移动设备国家代码，string类型
-
-mnc ：移动设备网络代码，string类型
-
-- 示例
-
-
-	>>> net.operatorName()
-	('CHN-UNICOM', 'UNICOM', '460', '01')
-
-### 获取附近小区ID
->net.getCi()
-
-获取附近小区ID。
-
-- 参数
-
-无
-
-- 返回值
-
-成功返回一个list类型的数组，包含小区id，格式为：[id, ……, id]。数组成员数量并非固定不变，位置不同、信号强弱不同等都可能导致获取的结果不一样。
-
-失败返回整型值-1。
-
-- 示例
-
-
-	>>> net.getCi()
-	[14071232, 0]
-
-### 获取附近小区的mnc
-
->net.getMnc()
-
-获取附近小区的mnc。
-
-- 参数
-
-无
-
-- 返回值
-
-成功返回一个list类型的数组，包含小区mnc，格式为：[mnc, ……, mnc]。数组成员数量并非固定不变，位置不同、信号强弱不同等都可能导致获取的结果不一样。
-
-失败返回整型值-1。
-
-- 示例
-
-
-	>>> net.getMnc()
-	[0, 0]
-
-### 获取附近小区的额mcc
->net.getMcc()
-
-获取附近小区的mcc。
-
-- 参数
-
-无
-
-- 返回值
-
-成功返回一个list类型的数组，包含小区mcc，格式为：[mcc, ……, mcc]。数组成员数量并非固定不变，位置不同、信号强弱不同等都可能导致获取的结果不一样。
-
-失败返回整型值-1。
-
-- 示例
-	
-
-	>>> net.getMcc()
-	[1120, 0]
-
-### 获取附近小区的lac
-
->net.getLac()
-
-获取附近小区的Lac。
-
-- 参数
-
-无
-
-- 返回值
-
-成功返回一个list类型的数组，包含小区lac，格式为：[lac, ……, lac]。数组成员数量并非固定不变，位置不同、信号强弱不同等都可能导致获取的结果不一样。
-
-失败返回整型值-1。
-
-- 示例
-
-
-	>>> net.getLac()
-	[21771, 0]
-
-### 获取当前工作模式
->net.getModemFun()
-
-获取当前工作模式。
-
-- 参数
-
-无
-
-- 返回值
-
-成功返回当前SIM模式：
-
-0 ：全功能关闭
-
-1 ：全功能开启（默认）
-
-4 ：飞行模式
-
-失败返回整型值-1。
-
-- 示例
-
-
-	>>> net.getModemFun()
-	1
-
-### 设置当前工作模式
-
->net.setModemFun(function, rst)
-
-设置当前SIM模式
-
-- 参数
-
-|参数|参数类型|参数说明|
-|----|-------|------|
-|function|int|设置SIM卡模式，0 - 全功能关闭， 1 - 全功能开启， 4 - 飞行模式 (RDA平台不支持cfun4)|
-|rst|int|可选参数 ，0 - 设置立即生效（默认为0），1 - 设置完重启|
-
-- 返回值
-
-设置成功返回整型值0，设置失败返回整型值-1。
-
-- 示例
-
-
-	>>> net.setModemFun(4)
-	0
 
 ## checkNet - 等待网络就绪
 
@@ -1715,38 +1219,24 @@ ADC功能初始化。
 
 #### 常量说明
 
-|常量|说明|
+|常量|模块管脚|
 |----|----|
-|Pin.GPIO1|GPIO1|
-|Pin.GPIO2|GPIO2|
-|Pin.GPIO3|GPIO3|
-|Pin.GPIO4|GPIO4|
-|Pin.GPIO5|GPIO5|
-|Pin.GPIO6|GPIO6|
-|Pin.GPIO7|GPIO13|
-|Pin.GPIO8|GPIO18|
-|Pin.GPIO9|GPIO23|
-|Pin.GPIO10|GPIO24|
-|Pin.GPIO11|GPIO25|
-|Pin.GPIO12|GPIO26|
-|Pin.GPIO13|GPIO27|
-|Pin.GPIO14|GPIO28|
-|Pin.GPIO15|GPIO29|
-|Pin.GPIO16|GPIO30|
-|Pin.GPIO17|GPIO31|
-|Pin.GPIO18|GPIO61|
-|Pin.GPIO19|GPIO62|
-|Pin.GPIO20|GPIO129|
-|Pin.GPIO21|GPIO130|
-|Pin.GPIO22|GPIO131|
-|Pin.GPIO23|GPIO132|
-|Pin.GPIO24|GPIO133|
-|Pin.GPIO25|GPIO139|
-|Pin.IN|输入模式|
-|Pin.OUT|输出模式|
-|Pin.PULL_DISABLE|浮空模式|
-|Pin.PULL_PU|上拉模式|
-|Pin.PULL_PD|下拉模式|
+|Pin.GPIO1|PIN3|
+|Pin.GPIO2|PIN5|
+|Pin.GPIO3|PIN6|
+|Pin.GPIO4|PIN13|
+|Pin.GPIO5|PIN18|
+|Pin.GPIO6|PIN23|
+|Pin.GPIO7|PIN24|
+|Pin.GPIO8|PIN25|
+|Pin.GPIO9|PIN26|
+|Pin.GPIO10|PIN27|
+|Pin.GPIO11|PIN61|
+|Pin.GPIO12|PIN62|
+|Pin.GPIO13|PIN129|
+|Pin.GPIO14|PIN132|
+|Pin.GPIO15|PIN133|
+|Pin.GPIO16|PIN139|
 
 #####  GPIO对应引脚说明
 文档中提供的GPIO引脚号对应的为模块外部的引脚编号，可参考提供的硬件资料查看模块外部的引脚编号。

@@ -531,7 +531,7 @@ r表示raw。
 在Python 3及以上版本中，Unicode是一级的字符串类型，这样可以更一致的处理ASCII和Non-ASCII文本。在老的Python版本中，字符串都是字节，不使用Unicode编码。假如知道字符编码，可以将其转化为Unicode。看一个例子：
 
 ```python
->>> val = "español"
+>>> val = "MeigPython"
 
 >>> val
 >>> 'español'
@@ -543,7 +543,7 @@ r表示raw。
 >>> val_utf8 = val.encode('utf-8')
 
 >>> val_utf8
->>> b'espa\xc3\xb1ol'
+>>> b'MeigPython'
 
 >>> type(val_utf8)
 >>> bytes
@@ -553,20 +553,20 @@ r表示raw。
 
 ```python
 >>> val_utf8.decode('utf-8')
->>> 'español'
+>>> 'MeigPython'
 ```
 
 虽然UTF-8编码已经变成主流，但因为历史的原因，你仍然可能碰到其它编码的数据：
 
 ```python
->>> val.encode('latin1')
->>> b'espa\xf1ol'
+>>> val.encode('MeigPython')
+>>> b'MeigPython'
 
 >>> val.encode('utf-16')
->>> b'\xff\xfee\x00s\x00p\x00a\x00\xf1\x00o\x00l\x00'
+>>> b'MeigPython'
 
 >>> val.encode('utf-16le')
->>> b'e\x00s\x00p\x00a\x00\xf1\x00o\x00l\x00'
+>>> b'MeigPython'
 ```
 
 工作中碰到的文件很多都是字节对象，盲目地将所有数据编码为Unicode是不可取的。

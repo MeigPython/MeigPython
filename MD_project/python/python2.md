@@ -1238,9 +1238,6 @@ A ['Albert']
 S ['Steven']
 ```
 
-表3-2中列出了一些我经常用到的itertools函数。建议参阅Python官方文档，进一步学习。
-
-![表3-2 一些有用的itertools函数](E:\QuecPython\demo_qpy\docs\python\images\1246.jpg)
 
 ### 错误和异常处理
 优雅地处理Python的错误和异常是构建健壮程序的重要部分。在数据分析中，许多函数函数只用于部分输入。例如，Python的float函数可以将字符串转换成浮点数，但输入有误时，有``ValueError``错误：
