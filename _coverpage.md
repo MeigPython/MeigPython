@@ -11,5 +11,5 @@
 - 轻松入门，易于上手
 - 代码加密，安全可靠
 
-[GitHub](https://github.com/MeigePython/MeigePython)
 [Get Started](/README.md)
+[GitHub](https://github.com/MeigePython/MeigePython)

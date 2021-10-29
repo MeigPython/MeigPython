@@ -288,11 +288,11 @@ binascii模块实现了二进制数据与各种ASCII编码之间的转换（双�
 	    a4 = binascii.unhexlify(a3)
 	    Binascii_log.info(a4)
 
-## collections - 集合和容器类型
+## ucollections - 集合和容器类型
 
-ucollections 模块用于创建一个新的容器类型，用于保存各种对象。该模块实现了CPython模块相应模块的子集。更多信息请参阅阅CPython文档：<font color=#FF0000>[collections](https://docs.python.org/3.5/library/collections.html#module-collections)</font>
+ucollections 模块用于创建一个新的容器类型，用于保存各种对象。该模块实现了CPython模块相应模块的子集。更多信息请参阅阅CPython文档：<font color=#FF0000>[ucollections](https://docs.python.org/3.5/library/collections.html#module-collections)</font>
 ### 创建一个新的namedtuple容器类型
->mytuple = collections.namedtuple(name, fields)
+>mytuple = ucollections.namedtuple(name, fields)
 
 创建一个具有特定名称和一组字段的新namedtuple容器类型，namedtuple是元组的子类，允许通过索引来访问它的字段
 
@@ -306,15 +306,15 @@ ucollections 模块用于创建一个新的容器类型，用于保存各种对�
 
 示例：
 
-	>>> import collections
-	>>> mytuple = collections.namedtuple("mytuple", ("id", "name"))
+	>>> import ucollections
+	>>> mytuple = ucollections.namedtuple("mytuple", ("id", "name"))
 	>>> t1 = mytuple(1, "foo")
 	>>> t2 = mytuple(2, "bar")
 	>>> print(t1.name)
 	foo
 
 ### 创建deque双向队列
->dq = collections.deque(iterable, maxlen, flag)
+>dq = ucollections.deque(iterable, maxlen, flag)
 
 创建deque双向队列
 
@@ -370,6 +370,30 @@ deque对象
 	dq.popleft()  # 1
 	dq.popleft()  # ["a"]
 	dq.popleft()  # a
+
+### ucollections.OrderedDict()
+
+dict类型子类，记住并保留添加的键的顺序。当订购的 dict 被重述时，按添加的顺序返回密钥/项目。
+
+```python
+from ucollections import OrderedDict
+
+# To make benefit of ordered keys, OrderedDict should be initialized
+# from sequence of (key, value) pairs.
+d = OrderedDict([("z", 1), ("a", 2)])
+# More items can be added as usual
+d["w"] = 5
+d["b"] = 3
+for k, v in d.items():
+    print(k, v)
+输出：
+
+z 1
+a 2
+w 5
+b 3
+```
+
 
 ### 使用示例
 
