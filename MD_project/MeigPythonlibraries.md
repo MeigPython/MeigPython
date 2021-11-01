@@ -1334,7 +1334,12 @@ int类型电压值。
 | PWM.PWM2 | PWM2 |              
 | PWM.PWM3 | PWM3 |      
 
+- 管脚对应关系
 
+|平台|对应管脚|
+|----|-------|
+|PWM0|管脚142|
+|PWM1|管脚5|
 
 #### 创建一个pwm对象
 
@@ -1392,7 +1397,13 @@ int类型电压值。
 | ADC.ADC2 | ADC通道2 | 
 | ADC.ADC3 | ADC通道3 |  
 
+- 管脚对应关系
 
+|平台|对应管脚|
+|----|-------|
+|ADC0|管脚45|
+|ADC1|管脚44|
+|ADC2|管脚43|
 
 #### 创建一个ADC对象
 
@@ -1516,24 +1527,24 @@ ADC功能初始化。
 
 #### 常量说明
 
-|常量|模块管脚|
-|----|----|
-|Pin.GPIO1|PIN3|
-|Pin.GPIO2|PIN5|
-|Pin.GPIO3|PIN6|
-|Pin.GPIO4|PIN13|
-|Pin.GPIO5|PIN18|
-|Pin.GPIO6|PIN23|
-|Pin.GPIO7|PIN24|
-|Pin.GPIO8|PIN25|
-|Pin.GPIO9|PIN26|
-|Pin.GPIO10|PIN27|
-|Pin.GPIO11|PIN61|
-|Pin.GPIO12|PIN62|
-|Pin.GPIO13|PIN129|
-|Pin.GPIO14|PIN132|
-|Pin.GPIO15|PIN133|
-|Pin.GPIO16|PIN139|
+|常量|适配平台|模块管脚|
+|----|----|-----|
+|Pin.GPIO1|SLM320P|GPIO1|
+|Pin.GPIO2|SLM320P|GPIO2|
+|Pin.GPIO3|SLM320P|GPIO3|
+|Pin.GPIO4|SLM320P|GPIO4|
+|Pin.GPIO5|SLM320P|GPIO5|
+|Pin.GPIO6|SLM320P|GPIO6|
+|Pin.GPIO7|SLM320P|GPIO7|
+|Pin.GPIO8|SLM320P|GPIO8|
+|Pin.GPIO9|SLM320P|GPIO9|
+|Pin.GPIO10|SLM320P|GPIO10|
+|Pin.GPIO11|SLM320P|GPIO11|
+|Pin.GPIO12|SLM320P|GPIO12|
+|Pin.GPIO13|SLM320P|GPIO13|
+|Pin.GPIO14|SLM320P|GPIO14|
+|Pin.GPIO15|SLM320P|GPIO15|
+|Pin.GPIO16|SLM320P|GPIO16|
 
 #####  GPIO对应引脚说明
 文档中提供的GPIO引脚号对应的为模块外部的引脚编号，可参考提供的硬件资料查看模块外部的引脚编号。
@@ -1545,7 +1556,7 @@ ADC功能初始化。
 
 |参数|类型|说明|
 |---|----|---|
-|GPIOn|int|引脚号,平台引脚对应关系如下(引脚号为外部引脚编号：<br>GPIO1 – 引脚号3   <br>GPIO2 – 引脚号4 <br>GPIO3 – 引脚号5  <br>GPIO4 – 引脚号6   <br>GPIO5 – 引脚号18|
+|GPIOn|int|引脚号,平台引脚对应关系如下(引脚号为外部引脚编号：<br>GPIO1 – 引脚号3   <br>GPIO2 – 引脚号4 <br>GPIO3 – 引脚号5  <br>GPIO4 – 引脚号6   <br>GPIO5 – 引脚号18 <br>GPIO6 – 引脚号23   <br>GPIO7 – 引脚号24 <br>GPIO8 – 引脚号25  <br>GPIO9 – 引脚号26   <br>GPIO10 – 引脚号27 <br>GPIO11 – 引脚号61   <br>GPIO12 – 引脚号62 <br>GPIO13 – 引脚号129  <br>GPIO14 – 引脚号132   <br>GPIO15 – 引脚号133 <br>GPIO16 – 引脚号139 |
 |direction|int|IN – 输入模式，OUT – 输出模式|
 |pullMode|int|PULL_DISABLE – 浮空模式 <br>PULL_PU – 上拉模式 <br>	PULL_PD – 下拉模式|
 |level|int|0 - 设置引脚为低电平, 1- 设置引脚为高电平|
@@ -1856,11 +1867,11 @@ PS:使用该定时器时需注意：定时器0-3，每个在同一时间内只�
 #### 常量说明
 |常量|适配平台|说明|
 |---|-------|----|
-|Pin.GPIO1|  |GPIO1|
-|Pin.GPIO2|  |GPIO2|
-|Pin.GPIO3|  |GPIO3|
-|Pin.GPIO4|  |GPIO4|
-|Pin.GPIO5|  |GPIO5|
+|Pin.GPIO1|SLM320P  |GPIO1|
+|Pin.GPIO2|SLM320P   |GPIO2|
+|Pin.GPIO3|SLM320P   |GPIO3|
+|Pin.GPIO4|SLM320P   |GPIO4|
+|Pin.GPIO5|SLM320P   |GPIO5|
 |Pin.IN|--|输入模式|
 |Pin.OUT|--|输出模式|
 |Pin.PULL_DISABLE|--|浮空模式|
@@ -2006,10 +2017,16 @@ PS:使用该定时器时需注意：定时器0-3，每个在同一时间内只�
 
 * 参数说明
 
-| 参数 | 类型 | 说明                                                         |
+| 参数 | 类型 | 说明                                                        |
 | ---- | ---- | ------------------------------------------------------------ |
 | I2Cn | int  | i2c 通路索引号:<br />I2C.I2C0 : 0  <br />I2C.I2C0 : 1        |
 | MODE | int  | i2c 的工作模式:<br />I2C.STANDARD_MODE : 0 标准模式<br />I2C.FAST_MODE ： 1 快速模式 |
+
+* 引脚对应关系
+
+|平台|  对应管脚 |
+|----|----|
+|SLM320P|<br />I2C0_SCL----PIN41 <br />I2C0_SDA----PIN142          <br />I2C1_SCL----PIN141 <br />I2C1_SDA----PIN142|
 
 - 示例
 
@@ -2081,6 +2098,15 @@ i2c_obj = I2C(I2C.I2C0, I2C.STANDARD_MODE)  # 返回i2c对象
 | port | int  | 通道选择[0,1]                                                |
 | mode | int  | SPI 的工作模式(模式0最常用):<br />时钟极性CPOL: 即SPI空闲时，时钟信号SCLK的电平（0:空闲时低电平; 1:空闲时高电平）<br /> 0 : CPOL=0, CPHA=0<br /> 1 : CPOL=0, CPHA=1<br /> 2:  CPOL=1, CPHA=0<br /> 3:  CPOL=1, CPHA=1 |
 | clk  | int  | 时钟频率<br /> 0 : 812.5kHz<br /> 1 : 1.625MHz<br /> 2 : 3.25MHz<br /> 3 : 6.5MHz<br /> 4 : 13MHz<br /> 5 :  26MH |
+
+* 引脚对应关系
+
+|平台|对应管脚     |
+|----|------------|
+|SLM320P|<br />SPI1_CS----PIN37
+<br />SPI1_DIO----PIN38
+<br />SPI1_DI----PIN39
+<br />SPI1_CLK----PIN40|
 
 
 - 示例
