@@ -6,8 +6,7 @@
     * [Python基本属性](MD_project/MeigPythonBasic.md)
     * [Python标准库](MD_project/MeigPythonStdlib.md)                                                                                                                                                                                                                                                                                       
     * [MeigPython类库](MD_project/MeigPythonlibraries.md)                                                                                                                                                                                                                                                                                                
-    * [MeigPython第三方库](MD_project/MeigPythonThirdPartyLib.md)                                                                                                                                                                                                                                                                                                
-  
+    * [MeigPython第三方库](MD_project/MeigPythonThirdPartyLib.md)	
   
   
   
