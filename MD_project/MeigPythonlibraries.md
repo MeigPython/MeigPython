@@ -48,210 +48,6 @@ myprint()
 ##### test #####
 ```
 
-## log - 日志
-
-模块功能：系统日志记录,分级别日志工具。
-
-### 设置日志输出级别
-
-> log.basicConfig(level)
-
-设置日志输出级别,  设置日志输出级别, 默认为log.INFO，系统只会输出 level 数值大于或等于该 level 的的日志结果。
-
-* 参数
-
-| 参数     | 参数类型 | 说明                  |
-| -------- | -------- | --------------------- |
-| CRITICAL | 常量     | 日志记录级别的数值 50 |
-| ERROR    | 常量     | 日志记录级别的数值 40 |
-| WARNING  | 常量     | 日志记录级别的数值 30 |
-| INFO     | 常量     | 日志记录级别的数值 20 |
-| DEBUG    | 常量     | 日志记录级别的数值 10 |
-| NOTSET   | 常量     | 日志记录级别的数值 0  |
-
-* 示例
-
-```python
-import log
-log.basicConfig(level=log.INFO)
-```
-
-### 获取logger对象
-
-> log.getLogger(name)
-
-获取logger对象，如果不指定name则返回root对象，多次使用相同的name调用getLogger方法返回同一个logger对象。
-
-* 参数
-
-| 参数 | 参数类型 | 说明     |
-| ---- | -------- | -------- |
-| name | string   | 日志主题 |
-
-* 返回值
-
-log对象。
-
-* 示例
-
-```python
-import log
-Testlog = log.getLogger("TestLog")
-```
-
-### 输出debug级别的日志
-
-> log.debug(tag, msg)
-
-输出debug级别的日志。
-
-* 参数
-
-| 参数 | 参数类型 | 说明                         |
-| ---- | -------- | ---------------------------- |
-| tag  | string   | 模块或功能名称，作为日志前缀 |
-| msg  | string   | 可变参数，日志内容           |
-
-* 返回值
-
-无
-
-* 示例 
-
-```python
-import log
-Testlog = log.getLogger("TestLog")
-Testlog.debug("Test message: %d(%s)", 100, "foobar")
-```
-
-### 输出info级别的日志
-
-> log.info(tag,msg)
-
-输出info级别的日志。
-
-* 参数
-
-| 参数 | 参数类型 | 说明                         |
-| ---- | -------- | ---------------------------- |
-| tag  | string   | 模块或功能名称，作为日志前缀 |
-| msg  | string   | 可变参数，日志内容           |
-
-* 返回值
-
-无
-
-* 示例
-
-```python
-import log
-Testlog = log.getLogger("TestLog")
-Testlog.info("Test message: %d(%s)", 100, "foobar")
-```
-
-### 输出warning级别的日志
-
-> log.warning(tag,msg)
-
-输出warning级别的日志。
-
-* 参数
-
-| 参数 | 参数类型 | 说明                         |
-| ---- | -------- | ---------------------------- |
-| tag  | string   | 模块或功能名称，作为日志前缀 |
-| msg  | string   | 可变参数，日志内容           |
-
-* 返回值
-
-无
-
-* 示例
-
-```python
-import log
-Testlog = log.getLogger("TestLog")
-Testlog.warning("Test message: %d(%s)", 100, "foobar")
-```
-
-### 输出error级别的日志
-
-> log.error(tag,msg)
-
-输出error级别的日志。
-
-* 参数
-
-| 参数 | 参数类型 | 说明                         |
-| ---- | -------- | ---------------------------- |
-| tag  | string   | 模块或功能名称，作为日志前缀 |
-| msg  | string   | 可变参数，日志内容           |
-
-* 返回值
-
-无
-
-* 示例
-
-```python
-import log
-Testlog = log.getLogger("TestLog")
-Testlog.error("Test message: %d(%s)", 100, "foobar")
-```
-
-### 输出critical级别的日志
-
-> log.critical(tag,msg)
-
-输出critical级别的日志。
-
-* 参数
-
-| 参数 | 参数类型 | 说明                         |
-| ---- | -------- | ---------------------------- |
-| tag  | string   | 模块或功能名称，作为日志前缀 |
-| msg  | string   | 可变参数，日志内容           |
-
-* 返回值
-
-无
-
-* 示例
-
-```python
-import log
-Testlog = log.getLogger("TestLog")
-Testlog.critical("Test message: %d(%s)", 100, "foobar")
-```
-
-
-
-### log使用示例
-
-```python
-import log
-import utime
-import checkNet
-
-
-'''
-下面两个全局变量是必须有的，用户可以根据自己的实际项目修改下面两个全局变量的值
-'''
-PROJECT_NAME = "MeigPython_Log_example"
-PROJECT_VERSION = "1.0.0"
-
-# 设置日志输出级别
-log.basicConfig(level=log.ERROR)
-# 获取logger对象，如果不指定name则返回root对象，多次使用相同的name调用getLogger方法返回同一个logger对象
-log = log.getLogger("error")
-
-if __name__ == '__main__':
-    log.error("Test error message!!")
-	log.debug("Test debug message!!")
-    log.critical("Test critical message!!")
-    log.info("Test info message!!")
-    log.warning("Test warning message!!")
-```
 ## dataCall - 数据拨号
 模块功能：提供数据拨号相关接口。
 ### 拨号
@@ -833,6 +629,188 @@ subcode 表示 SIM卡的状态，范围[0, 21]，每个值的详细说明，请�
 	            # （5）如果手动拨号也失败，那么请联系我们的FAE反馈问题，最好将相应SIM卡信息，比如哪个运营商
 	            #     的卡、什么类型的卡、卡的IMSI等信息也一并提供，必要时可以将SIM卡寄给我们来排查问题。
 
+## fota -  固件升级
+
+模块功能：固件升级。
+
+###创建fota对象
+```python
+from fota import fota
+fota_obj = fota()
+```
+
+###一键升级接口
+>fota_obj.httpDownload(url1=, callback=)
+
+一个接口实现固件下载和升级整个过程
+
+* 参数
+
+| 参数       | 参数类型 | 说明                  |
+| ---------- | -------- | --------------------- |
+| url1       | string   | 升级包的url |
+| data       | json     | 回调函数，显示下载进度和状态，可选择传不传入|
+
+* 返回值
+
+下载成功返回整形值0，下载失败返回整形值-1。
+
+* 示例
+
+```python
+#args[0]表示下载状态，下载成功返回整型值：0或1或2，下载失败返回整型值：-1，args[1]表示下载进度，当下载状态是成功时表示百分比，下载状态是失败时表示错误码
+def result(args):
+    print('download status:',args[0],'download process:',args[1])
+    
+#差分升级、全量升级    
+fota_obj.httpDownload(url1="http://116.247.69.94:18080/up.pack",callback=result)
+```
+
+###分步升级接口，写入升级包数据流
+>fota_obj.write(bytesData, file_size)
+
+写入升级包数据流。
+
+* 参数
+
+| 参数       | 参数类型 | 说明                  |
+| ---------- | -------- | --------------------- |
+| bytesData  | bytes	| 升级包文件数据 |
+| file_size  | int      | 升级包文件总大小(单位：字节)|
+
+* 返回值
+
+写入成功返回整型值0，写入失败返回值整型值-1。
+
+###分步升级接口，刷新缓存数据到flash
+>fota_obj.flush()
+
+刷新缓存数据到flash
+
+* 参数
+
+无
+
+* 返回值
+
+下载成功返回整形值0，下载失败返回整形值-1。
+
+###分步升级接口，数据校验
+>fota_obj.verify()
+
+数据校验。
+
+* 参数
+
+无
+
+* 返回值
+
+下载成功返回整形值0，下载失败返回整形值-1。
+
+* 示例
+
+```python
+>>> fota_obj.verify()
+0
+```
+
+
+## 使用示例
+
+###一键升级接口
+
+```python
+import utime
+import checkNet
+import log
+from fota import fota
+
+#设置日志输出级别
+log.basicConfig(level=log.INFO)
+fota_log = log.getLogger("Fota")
+
+#下面两个全局变量是必须有的，用户可以根据自己的实际项目修改下面两个全局变量的值
+PROJECT_NAME = "mPython_fota_example"
+PROJECT_VERSION = "1.0.0"
+checknet = checkNet.CheckNetwork(PROJECT_NAME, PROJECT_VERSION)
+
+def result(args):
+    print('download status:',args[0],'download process:',args[1])
+
+def run():
+    fota_obj = fota()  # 创建Fota对象
+    fota_log.info("httpDownload...")
+    res = fota_obj.httpDownload(url1="http://116.247.69.94:18080/up.pack",callback=result)
+    if res != 0:
+        fota_log.error("httpDownload error")
+        return
+    fota_log.info("wait httpDownload update...")
+    utime.sleep(2)
+
+if __name__ == '__main__':
+    while True:
+        utime.sleep(5)
+        stagecode, subcode = checknet.wait_network_connected(30)
+        fota_log.info('stagecode = {}, subcode = {}'.format(stagecode, subcode))
+        if stagecode == 3 and subcode == 1:
+            fota_log.info("Network connection successful!")
+            break;
+        else:
+            fota_log.info("Network connection fail!")
+
+    run()
+    while True:
+        utime.sleep(5)
+        print("wait")
+```
+
+###分步升级接口
+
+```python
+import utime
+import log
+from fota import fota
+import os
+from misc import Power
+
+#下面两个全局变量是必须有的，用户可以根据自己的实际项目修改下面两个全局变量的值
+
+PROJECT_NAME = "mPython_fota_example"
+PROJECT_VERSION = "1.0.0"
+
+#设置日志输出级别
+log.basicConfig(level=log.INFO)
+fota_log = log.getLogger("Fota")
+
+def run():
+    fota_obj = fota()
+    file_size = os.stat("/up.pack")[6]
+    print(file_size)
+    with open("/up.pack", "rb")as f:
+        while 1:
+            c = f.read(1024)   # read
+            if not c:
+                break
+            fota_obj.write(c, file_size)
+    fota_log.info("fota image flush...")
+    res = fota_obj.flush()  # 刷新
+    if res != 0:
+        fota_log.error("flush error")
+        return
+    fota_log.info("fota image verify...")
+    res = fota_obj.verify()  # 校验
+    if res != 0:
+        fota_log.error("verify error")
+        return
+    fota_log.info("power_reset...")
+    utime.sleep(2)
+    Power.powerRestart()   # 重启模块       
+        
+if __name__ == '__main__':
+    fota_log.info("run start...")
+    run()
+```
 
 ## modem - 设备相关
 
