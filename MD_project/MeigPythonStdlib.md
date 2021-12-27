@@ -322,7 +322,7 @@ ucollections 模块用于创建一个新的容器类型，用于保存各种对�
 
 |参数   |   参数类型   |    参数说明   |
 | ----  | ----         | ----        |
-| iterable   | tuple        |iterable必须是空元组        |
+| <div style="width: 50pt"> iterable</div> | <div style="width: 50pt"> tuple</div>| iterable必须是空元组 |
 | maxlen   |int    |指定maxlen并将双端队列限制为此最大长度   |
 |flag    |int   | 可选参数；0(默认)：不检查队列是否溢出，达到最大长度时继续append会丢弃之前的值 ，1：当队列达到最大设定长度会抛出IndexError: full|
 

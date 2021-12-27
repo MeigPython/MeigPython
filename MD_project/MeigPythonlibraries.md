@@ -1025,7 +1025,7 @@ ure.search 扫描整个字符串并返回第一个成功的匹配。
 
 |参数|类型|说明|
 |----|----|----|
-|index|int|正则表达式中，group()用来提出分组截获的字符串, index=0返回整体，根据编写的正则表达式进行获取，当分组不存在时会抛出异常|
+| <div style="width: 50pt"> index</div> | <div style="width: 50pt"> int</div>|正则表达式中，group()用来提出分组截获的字符串, index=0返回整体，根据编写的正则表达式进行获取，当分组不存在时会抛出异常|
 
 - 返回值
 
@@ -1485,7 +1485,7 @@ ADC功能初始化。
 
 | 参数   | 参数类型 | 参数说明                                                     |
 | ------ | -------- | ------------------------------------------------------------ |
-| usrFun | function | 回调函数，当USB插入或者拔出时，会触发回调来通知用户当前USB状态。注意：回调函数中不要进行阻塞性的操作。 |
+| <div style="width: 50pt"> usrFun</div> | <div style="width: 50pt"> function</div>| 回调函数，当USB插入或者拔出时，会触发回调来通知用户当前USB状态。注意：回调函数中不要进行阻塞性的操作。 |
 
 - 返回值
 
@@ -1502,7 +1502,7 @@ ADC功能初始化。
 
 #### 常量说明
 
-|常量|适配平台|模块管脚|
+|常量|适配平台|说明|
 |----|----|-----|
 |Pin.GPIO1|SLM320P|GPIO1|
 |Pin.GPIO2|SLM320P|GPIO2|
@@ -1516,10 +1516,11 @@ ADC功能初始化。
 |Pin.GPIO10|SLM320P|GPIO10|
 |Pin.GPIO11|SLM320P|GPIO11|
 |Pin.GPIO12|SLM320P|GPIO12|
-|Pin.GPIO13|SLM320P|GPIO13|
-|Pin.GPIO14|SLM320P|GPIO14|
-|Pin.GPIO15|SLM320P|GPIO15|
-|Pin.GPIO16|SLM320P|GPIO16|
+|Pin.IN|--|	输入模式|
+|Pin.OUT|--|输出模式|
+|Pin.PULL_DISABLE|--|浮空模式|
+|Pin.PULL_PU|--|上拉模式|
+|Pin.PULL_PD|--|下拉模式|
 
 #####  GPIO对应引脚说明
 文档中提供的GPIO引脚号对应的为模块外部的引脚编号，可参考提供的硬件资料查看模块外部的引脚编号。
@@ -1531,9 +1532,9 @@ ADC功能初始化。
 
 |参数|类型|说明|
 |---|----|---|
-|GPIOn|int|引脚号,平台引脚对应关系如下(引脚号为外部引脚编号：<br>GPIO1 – 引脚号3   <br>GPIO2 – 引脚号4 <br>GPIO3 – 引脚号5  <br>GPIO4 – 引脚号6   <br>GPIO5 – 引脚号18 <br>GPIO6 – 引脚号23   <br>GPIO7 – 引脚号24 <br>GPIO8 – 引脚号25  <br>GPIO9 – 引脚号26   <br>GPIO10 – 引脚号27 <br>GPIO11 – 引脚号61   <br>GPIO12 – 引脚号62 <br>GPIO13 – 引脚号129  <br>GPIO14 – 引脚号132   <br>GPIO15 – 引脚号133 <br>GPIO16 – 引脚号139 |
+|GPIOn|int|引脚号<br>SLM320P平台引脚对应关系如下(引脚号为外部引脚编号)：<br>GPIO1 – 引脚号23 - 复位状态: INPUT/L <br>GPIO2 – 引脚号13 - 复位状态: INPUT/L <br>GPIO3 – 引脚号14 - 复位状态: INPUT/L <br>GPIO4 – 引脚号18 - 复位状态: INPUT/L <br>GPIO5 – 引脚号15 - 复位状态: INPUT/L <br>GPIO6 – 引脚号2  - 复位状态: INPUT/L <br>GPIO7 – 引脚号3 - 复位状态: INPUT/L <br>GPIO8 – 引脚号1 - 复位状态: INPUT/L <br>GPIO9 – 引脚号0 - 复位状态: INPUT/L <br>GPIO10 – 引脚号22 - 复位状态: INPUT/L <br>GPIO11 – 引脚号12 - 复位状态: INPUT/L <br>GPIO12 – 引脚号7 - 复位状态: INPUT/L|
 |direction|int|IN – 输入模式，OUT – 输出模式|
-|pullMode|int|PULL_DISABLE – 浮空模式 <br>PULL_PU – 上拉模式 <br>	PULL_PD – 下拉模式|
+|pullMode|int|PULL_DISABLE – 浮空模式 <br>PULL_PU – 上拉模式 <br>PULL_PD – 下拉模式|
 |level|int|0 - 设置引脚为低电平, 1- 设置引脚为高电平|
 
 - 示例
@@ -1839,20 +1840,6 @@ PS:使用该定时器时需注意：定时器0-3，每个在同一时间内只�
 
 类功能：用于配置I/O引脚在发生外部事件时中断。
 
-#### 常量说明
-|常量|适配平台|说明|
-|---|-------|----|
-|Pin.GPIO1|SLM320P  |GPIO1|
-|Pin.GPIO2|SLM320P   |GPIO2|
-|Pin.GPIO3|SLM320P   |GPIO3|
-|Pin.GPIO4|SLM320P   |GPIO4|
-|Pin.GPIO5|SLM320P   |GPIO5|
-|Pin.IN|--|输入模式|
-|Pin.OUT|--|输出模式|
-|Pin.PULL_DISABLE|--|浮空模式|
-|Pin.PULL_PU|--|上拉模式|
-|Pin.PULL_PD|--|下拉模式|
-
 #### 创建ExtInt对象
 >extint = ExtInt(GPIOn, mode, pull, callback)
 
@@ -1860,7 +1847,7 @@ PS:使用该定时器时需注意：定时器0-3，每个在同一时间内只�
 
 |参数|类型|说明|
 |---|----|---|
-|GPIOn|int|引脚号,平台引脚对应关系如下(引脚号为外部引脚编号：<br>GPIO1 – 引脚号3   <br>GPIO2 – 引脚号4 <br>GPIO3 – 引脚号5  <br>GPIO4 – 引脚号6   <br>GPIO5 – 引脚号18|
+|GPIOn|int|需要控制的GPIO引脚号，参照Pin模块的定义|
 |mode|int|设置触发方式<br>IRQ_RISING – 上升沿触发<br>IRQ_FALLING – 下降沿触发<br>IRQ_RISING_FALLING – 上升和下降沿触发|
 |pull|int|PULL_DISABLE – 浮空模式<br>PULL_PU – 上拉模式<br>PULL_PD – 下拉模式|
 |callback|int|中断触发回调函数|
@@ -1917,7 +1904,7 @@ PS:使用该定时器时需注意：定时器0-3，每个在同一时间内只�
 
 |参数|类型|说明|
 |---|----|----|
-|year|int|年|
+| <div style="width: 50pt"> year</div> | <div style="width: 50pt"> int</div>| 年 |
 |month|int|月，范围1~12|
 |day|int|日，范围1~31|
 |week|int|星期，范围0 ~ 6，其中0表示周日，1 ~ 6分别表示周一到周六；设置时间时，该参数不起作用，保留；获取时间时该参数有效|
