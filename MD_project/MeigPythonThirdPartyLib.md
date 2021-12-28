@@ -412,7 +412,7 @@ if __name__ == '__main__':
 
 ## umqtt - MQTT
 
-模块功能：提供创建MQTT客户端发布订阅功能。。
+模块功能：提供创建MQTT客户端发布订阅功能。
 
 ```python
 QoS级别说明
@@ -663,3 +663,77 @@ if __name__ == '__main__':
     else:
         mqtt_log.info('Network connection failed! stagecode = {}, subcode = {}'.format(stagecode, subcode))
 ```
+
+## ntptime - NTP对时
+
+模块功能：该模块用于时间同步。
+
+### 返回当前的ntp服务器
+> ntptime.host
+
+返回当前的ntp服务器，默认为"ntp.aliyun.com"。
+
+### 设置ntp服务器
+> ntptime.sethost(host)
+
+设置ntp服务器。
+
+* 参数
+
+| 参数       | 参数类型 | 说明                  |
+| ---------- | -------- | --------------------- |
+| host       | string   | ntp服务器地址|
+
+* 返回值
+
+成功返回整型值0，失败返回整型值-1。
+
+### 同步ntp时间
+> ntptime.settime()
+
+同步ntp时间。
+
+* 参数
+
+无
+
+* 返回值
+
+成功返回整型值0，失败返回整型值-1。
+
+* ntptime使用示例
+
+```python
+import ntptime
+import log
+import utime
+import checkNet
+import utime
+
+PROJECT_NAME = "mPython_ntp_example"
+PROJECT_VERSION = "1.0.0"
+
+checknet = checkNet.CheckNetwork(PROJECT_NAME, PROJECT_VERSION)
+
+# 设置日志输出级别
+log.basicConfig(level=log.INFO)
+ntp_log = log.getLogger("NTP")
+
+if __name__ == '__main__':
+    stagecode, subcode = checknet.wait_network_connected(30)
+    if stagecode == 3 and subcode == 1:
+        mqtt_log.info('Network connection successful!')
+        ntp_log.info(utime.localtime())
+        # 查看默认ntp服务
+        ntp_log.info(ntptime.host)
+        # 设置ntp服务
+        ntptime.sethost('pool.ntp.org')
+        ntp_log.info(ntptime.host)
+        # 同步ntp服务时间
+        ntptime.settime()
+
+        ntp_log.info(utime.localtime())
+    else:
+        mqtt_log.info('Network connection failed! stagecode = {}, subcode = {}'.format(stagecode, subcode))
+```
+
