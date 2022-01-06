@@ -809,6 +809,63 @@ if __name__ == '__main__':
     run()
 ```
 
+## app_fota -  用户文件升级
+
+模块功能：用户文件升级
+
+### 创建app_fota对象
+1.导入app_fota模块<br>
+2.调用new方法创建app_fota对象
+```python
+import app_fota
+fota = app_fota.new()
+```
+
+### 下载单个文件
+>fota.download(url, file_name)
+
+* 参数
+
+| 参数       | 参数类型 | 说明                  |
+| ---------- | -------- | --------------------- |
+| url        | string   | 待下载文件的url |
+| file_name  | string   | 本地待升级文件的绝对路径|
+
+* 返回值
+
+成功返回0，否则返回-1。
+
+
+### 下载批量文件
+>fota.bulk_download(info=[])
+
+* 参数
+
+| 参数       | 参数类型 | 说明                  |
+| ---------- | -------- | --------------------- |
+| info       | list     | 	批量下载列表，列表的元素均为包含了url和file_name的字典 |
+
+* 返回值
+
+成功返回0，否则返回-1。
+
+* 示例
+
+```python
+download_list = [{'url': 'http://www.example.com/app.py', 'file_name': '/usr/app.py'}, {'url': 'http://www.example.com/test.txt', 'file_name': '/usr/text.txt'}]
+```
+
+### 设置升级标志
+>fota.set_update_flag()
+
+* 参数
+
+无
+
+* 返回值
+
+无
+
 ## modem - 设备相关
 
 模块功能：设备信息获取
@@ -1302,33 +1359,31 @@ int类型电压值。
 
 #### 常量说明
 
-| 常量     | 说明 | 
-| -------- | ---- |
-| PWM.PWM0 | PWM0 | 
-| PWM.PWM1 | PWM1 |             
-| PWM.PWM2 | PWM2 |              
-| PWM.PWM3 | PWM3 |      
-
-- 管脚对应关系
-
-|平台|对应管脚|
-|----|-------|
-|PWM0|管脚142|
-|PWM1|管脚5|
+| 常量     | 说明 | 使用平台| 
+| -------- | ---- | --------|
+| PWM.PWM0 | PWM0 | SLM320P |
+| PWM.PWM1 | PWM1 | SLM320P |                
 
 #### 创建一个pwm对象
 
 > from misc import PWM
 >
-> pwm = PWM(PWM.PWMn,PWM.ABOVE_xx, highTime, cycleTime)
+> pwm = PWM(PWM.PWMn, highTime, cycleTime)
 
 - 参数
 
 | 参数      | 参数类型 | 参数说明                                                     |
 | --------- | -------- | ------------------------------------------------------------ |
-| PWMn      | int      | |
+| PWMn      | int      | PWM号<br>SLM320P平台，支持PWM0-PWM1，对应引脚如下：<br>PWM0 – 引脚号142<br>PWM1 – 引脚号5<br>SLM322平台,不支持|
+| highTime      | int      |ms级时，单位为ms|
+| cycleTime     | int      |ms级时，单位为ms|
 
+- 示例
 
+```python
+>>> from misc import PWM
+>>> pwm1 = PWM(PWM.PWM1, 100, 200)
+```
 
 #### 开启PWM输出
 
@@ -1360,25 +1415,33 @@ int类型电压值。
 
 成功返回整型0，失败返回整型-1。
 
+#### 使用示例
+```python
+#PWM使用示例
+from misc import PWM
+import utime
+
+pwm = PWM(PWM.PWM1, 50, 100)
+
+while True:
+    #开启PWM输出
+    pwm.open()
+    utime.sleep_ms(1000 * 5)
+    #关闭PWM输出
+    pwm.close()
+    utime.sleep_ms(1000 * 5)
+```
 
 ### ADC
 
 #### 常量说明
 
-| 常量     | 说明     |               
-| -------- | -------- | 
-| ADC.ADC0 | ADC通道0 | 
-| ADC.ADC1 | ADC通道1 |   
-| ADC.ADC2 | ADC通道2 | 
-| ADC.ADC3 | ADC通道3 |  
-
-- 管脚对应关系
-
-|平台|对应管脚|
-|----|-------|
-|ADC0|管脚45|
-|ADC1|管脚44|
-|ADC2|管脚43|
+| 常量     | 说明     |  使用平台|              
+| -------- | -------- | -------- |
+| ADC.ADC0 | ADC通道0 | SLM320P/SLM322 |
+| ADC.ADC1 | ADC通道1 | SLM320P/SLM322 |  
+| ADC.ADC2 | ADC通道2 | SLM320P |
+  
 
 #### 创建一个ADC对象
 
@@ -1386,7 +1449,12 @@ int类型电压值。
 >
 > adc = ADC(ADC.ADC1)
 
+- 示例
 
+```python
+>>> from misc import ADC
+>>> adc = ADC()
+```
 
 #### ADC功能初始化
 
@@ -1410,6 +1478,12 @@ ADC功能初始化。
 
 读取指定通道的电压值，单位mV。
 
+- 参数
+
+| 参数      | 参数类型 | 参数说明                                                     |
+| --------- | -------- | ------------------------------------------------------------ |
+| ADCn      | int      | ADC通道<br>SLM320P平台对应引脚如下：<br>ADC0 – 引脚号45<br>ADC1 – 引脚号44<br>ADC2 – 引脚号43<br>SLM322平台对应引脚如下：<br>ADC0 – 引脚号19<br>ADC1 – 引脚号20|
+
 - 返回值
 
 成功返回指定通道电压值，错误返回整型-1。
@@ -1417,13 +1491,11 @@ ADC功能初始化。
 - 示例
 
 ```python
->>>adc.read()  #读取ADC通道0电压值
-848
-
+>>>adc.read(ADC.ADC0)  #读取ADC通道0电压值
+613
+>>>adc.read(ADC.ADC1)  #读取ADC通道1电压值
+605
 ```
-
-
-
 #### 关闭ADC
 
 > adc.close()
@@ -1504,16 +1576,16 @@ ADC功能初始化。
 
 |常量|适配平台|说明|
 |----|----|-----|
-|Pin.GPIO1|SLM320P|GPIO1|
-|Pin.GPIO2|SLM320P|GPIO2|
-|Pin.GPIO3|SLM320P|GPIO3|
-|Pin.GPIO4|SLM320P|GPIO4|
-|Pin.GPIO5|SLM320P|GPIO5|
-|Pin.GPIO6|SLM320P|GPIO6|
-|Pin.GPIO7|SLM320P|GPIO7|
-|Pin.GPIO8|SLM320P|GPIO8|
-|Pin.GPIO9|SLM320P|GPIO9|
-|Pin.GPIO10|SLM320P|GPIO10|
+|Pin.GPIO1|SLM320P/SLM322|GPIO1|
+|Pin.GPIO2|SLM320P/SLM322|GPIO2|
+|Pin.GPIO3|SLM320P/SLM322|GPIO3|
+|Pin.GPIO4|SLM320P/SLM322|GPIO4|
+|Pin.GPIO5|SLM320P/SLM322|GPIO5|
+|Pin.GPIO6|SLM320P/SLM322|GPIO6|
+|Pin.GPIO7|SLM320P/SLM322|GPIO7|
+|Pin.GPIO8|SLM320P/SLM322|GPIO8|
+|Pin.GPIO9|SLM320P/SLM322|GPIO9|
+|Pin.GPIO10|SLM320P/SLM322|GPIO10|
 |Pin.GPIO11|SLM320P|GPIO11|
 |Pin.GPIO12|SLM320P|GPIO12|
 |Pin.IN|--|	输入模式|
@@ -1532,7 +1604,7 @@ ADC功能初始化。
 
 |参数|类型|说明|
 |---|----|---|
-|GPIOn|int|引脚号<br>SLM320P平台引脚对应关系如下(引脚号为外部引脚编号)：<br>GPIO1 – 引脚号23 - 复位状态: INPUT/L <br>GPIO2 – 引脚号13 - 复位状态: INPUT/L <br>GPIO3 – 引脚号14 - 复位状态: INPUT/L <br>GPIO4 – 引脚号18 - 复位状态: INPUT/L <br>GPIO5 – 引脚号15 - 复位状态: INPUT/L <br>GPIO6 – 引脚号2  - 复位状态: INPUT/L <br>GPIO7 – 引脚号3 - 复位状态: INPUT/L <br>GPIO8 – 引脚号1 - 复位状态: INPUT/L <br>GPIO9 – 引脚号0 - 复位状态: INPUT/L <br>GPIO10 – 引脚号22 - 复位状态: INPUT/L <br>GPIO11 – 引脚号12 - 复位状态: INPUT/L <br>GPIO12 – 引脚号7 - 复位状态: INPUT/L|
+|GPIOn|int|引脚号<br>SLM320P平台引脚对应关系如下(引脚号为外部引脚编号)：<br>GPIO1 – 引脚号3 - 复位状态: INPUT/L <br>GPIO2 – 引脚号5 - 复位状态: INPUT/L <br>GPIO3 – 引脚号13 - 复位状态: INPUT/L <br>GPIO4 – 引脚号18 - 复位状态: INPUT/L <br>GPIO5 – 引脚号23 - 复位状态: INPUT/L <br>GPIO6 – 引脚号24  - 复位状态: INPUT/L <br>GPIO7 – 引脚号25 - 复位状态: INPUT/L <br>GPIO8 – 引脚号26 - 复位状态: INPUT/L <br>GPIO9 – 引脚号27 - 复位状态: INPUT/L <br>GPIO10 – 引脚号62 - 复位状态: INPUT/L <br>GPIO11 – 引脚号129 - 复位状态: INPUT/L <br>GPIO12 – 引脚号133 - 复位状态: INPUT/L<br>SLM322平台引脚对应关系如下(引脚号为外部引脚编号)：<br>GPIO1 – 引脚号9 - 复位状态: INPUT/L <br>GPIO2 – 引脚号48 - 复位状态: INPUT/L <br>GPIO3 – 引脚号49 - 复位状态: INPUT/L <br>GPIO4 – 引脚号50 - 复位状态: INPUT/L <br>GPIO5 – 引脚号51 - 复位状态: INPUT/L <br>GPIO6 – 引脚号52 - 复位状态: INPUT/L <br>GPIO7 – 引脚号53 - 复位状态: INPUT/L <br>GPIO8 – 引脚号54 - 复位状态: INPUT/L <br>GPIO9 – 引脚号56 - 复位状态: INPUT/L <br>GPIO10 – 引脚号57 - 复位状态: INPUT/L <br>|
 |direction|int|IN – 输入模式，OUT – 输出模式|
 |pullMode|int|PULL_DISABLE – 浮空模式 <br>PULL_PU – 上拉模式 <br>PULL_PD – 下拉模式|
 |level|int|0 - 设置引脚为低电平, 1- 设置引脚为高电平|
@@ -1649,6 +1721,13 @@ PIN脚电平，0-低电平，1-高电平。
 |parity|int|奇偶校验（0 – NONE，1 – EVEN，2 - ODD）|
 |stopbits|int|停止位（1~2）|
 |flowctl|int|硬件控制流（0 – FC_NONE， 1 – FC_HW）|
+
+- 引脚对应关系
+
+|平台|对应管脚|
+|--- |------- |
+|SLM320P|uart0:<br>TX: 引脚号138<br>RX: 引脚号137<br>uart1:<br>TX: 引脚号63<br>RX: 引脚号66<br>uart2:<br>TX: 引脚号67<br>RX: 引脚号68<br>CTS: 引脚号65<br>RTS: 引脚号64|
+|SLM322|uart0:<br>TX: 引脚号70<br>RX: 引脚号69<br>uart2:<br>TX: 引脚号32<br>RX: 引脚号31<br>CTS: 引脚号33<br>RTS: 引脚号34|
 
 - 示例
 
@@ -1988,8 +2067,8 @@ PS:使用该定时器时需注意：定时器0-3，每个在同一时间内只�
 
 |平台|  对应管脚 |
 |----|----|
-|SLM320P|<br />I2C0_SCL----PIN41 <br />I2C0_SDA----PIN142          <br />I2C1_SCL----PIN141 <br />I2C1_SDA----PIN142|
-
+|SLM320P|<br />I2C0_SCL-----PIN41 <br />I2C0_SDA----PIN42          <br />I2C1_SCL-----PIN141 <br />I2C1_SDA----PIN142|
+|SLM322|<br />I2C0_SCL-----PIN11 <br />I2C0_SDA----PIN12          <br />|
 - 示例
 
 ```python
@@ -1997,8 +2076,6 @@ from machine import I2C
 
 i2c_obj = I2C(I2C.I2C0, I2C.STANDARD_MODE)  # 返回i2c对象
 ```
-
-
 
 #### 读取数据
 
@@ -2021,8 +2098,6 @@ i2c_obj = I2C(I2C.I2C0, I2C.STANDARD_MODE)  # 返回i2c对象
 
 成功返回整型值0，失败返回整型值-1。
 
-
-
 #### 写入数据
 
 > **I2C.write(slaveaddress, addr, addr_len, data, datalen)**
@@ -2043,7 +2118,25 @@ i2c_obj = I2C(I2C.I2C0, I2C.STANDARD_MODE)  # 返回i2c对象
 
 成功返回整型值0，失败返回整型值-1。
 
+#### 使用示例
 
+需要连接设备使用！
+
+```python
+from machine import I2C
+import utime
+
+i2c_obj = I2C(I2C.I2C0, I2C.STANDARD_MODE)  # Return i2c object
+r_data = bytearray(b"\x00" * 50)
+data = 0xAA
+utime.sleep_ms(5000)
+
+while True:
+    i2c_obj.read(0x70, 0xAA, 1, r_data, 10)
+    utime.sleep_ms(500)
+    i2c_obj.write(0x70, 0x55, 1, data, 1)
+    utime.sleep_ms(1000)
+```
 
 ### SPI
 
@@ -2059,17 +2152,14 @@ i2c_obj = I2C(I2C.I2C0, I2C.STANDARD_MODE)  # 返回i2c对象
 | ---- | ---- | ------------------------------------------------------------ |
 | port | int  | 通道选择[0,1]                                                |
 | mode | int  | SPI 的工作模式(模式0最常用):<br />时钟极性CPOL: 即SPI空闲时，时钟信号SCLK的电平（0:空闲时低电平; 1:空闲时高电平）<br /> 0 : CPOL=0, CPHA=0<br /> 1 : CPOL=0, CPHA=1<br /> 2:  CPOL=1, CPHA=0<br /> 3:  CPOL=1, CPHA=1 |
-| clk  | int  | 时钟频率<br /> 0 : 812.5kHz<br /> 1 : 1.625MHz<br /> 2 : 3.25MHz<br /> 3 : 6.5MHz<br /> 4 : 13MHz<br /> 5 :  26MH |
+| clk  | int  | 时钟频率<br /> 0：781.25KHz<br />1：1.5625MHz<br />2：3.125MKHz<br />3：6.25MHz<br />4：12.5 MHz<br />5：25MKHz<br />6：50MKHz |
 
 * 引脚对应关系
 
 |平台|对应管脚     |
 |----|------------|
-|SLM320P|<br />SPI1_CS----PIN37
-<br />SPI1_DIO----PIN38
-<br />SPI1_DI----PIN39
-<br />SPI1_CLK----PIN40|
-
+|SLM320P|<br />port0:<br />CS:引脚号37<br />CLK:引脚号40<br />MOSI:引脚号38<br />MISO:引脚号39|
+|SLM322|<br />port0:<br />CS:引脚号4<br />CLK:引脚号1<br />MOSI:引脚号3<br />MISO:引脚号2|
 
 - 示例
 
@@ -2078,8 +2168,6 @@ from machine import SPI
 
 spi_obj = SPI(1, 0, 1)  # 返回spi对象
 ```
-
-
 
 #### 读取数据
 
@@ -2097,7 +2185,6 @@ spi_obj = SPI(1, 0, 1)  # 返回spi对象
 * 返回值
 
 失败返回整型值-1。
-
 
 
 #### 写入数据
@@ -2137,3 +2224,23 @@ spi_obj = SPI(1, 0, 1)  # 返回spi对象
 
 失败返回整型值-1。
 
+#### 使用示例
+
+需要连接设备使用！
+
+```python
+from machine import SPI
+import utime
+
+utime.sleep_ms(5000)
+spi_obj = SPI(SPI.SPI0, 3, 0)  # Return spi object
+r_data = bytearray(b"\x00" * 50)
+w_data = 0xAA
+
+while True:
+    #print("spi demo running")
+    spi_obj.write(w_data, 1)
+    utime.sleep_ms(1)
+    spi_obj.read(r_data, 10)
+    utime.sleep_ms(1)
+```
